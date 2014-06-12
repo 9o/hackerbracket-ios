@@ -1,2 +1,2 @@
-hackerbracket-ios
-=================
+HackerBracket for iOS
+===
