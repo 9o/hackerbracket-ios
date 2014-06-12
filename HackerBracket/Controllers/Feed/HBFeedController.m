@@ -38,6 +38,24 @@
     [self.refreshControl endRefreshing];
 }
 
+- (IBAction)showFollowing:(id)sender {
+    [UIView animateWithDuration:0.2 animations:^{
+        self.indicatorView.frame = CGRectMake(10, 35, 75, 5);
+    }];
+}
+
+- (IBAction)showTrending:(id)sender {
+    [UIView animateWithDuration:0.2 animations:^{
+        self.indicatorView.frame = CGRectMake(103, 35, 75, 5);
+    }];
+}
+
+- (IBAction)showRecent:(id)sender {
+    [UIView animateWithDuration:0.2 animations:^{
+        self.indicatorView.frame = CGRectMake(196, 35, 75, 5);
+    }];
+}
+
 #pragma mark - Table
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -93,10 +111,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    // Setup refresh control
     self.refreshControl = [UIRefreshControl new];
     [self.refreshControl setTintColor:[UIColor colorWithRed:90/255.0f green:184/255.0f blue:77/255.0f alpha:1.0f]];
     [self.tableView addSubview:self.refreshControl];
     [self.refreshControl addTarget:self action:@selector(refreshHacks) forControlEvents:UIControlEventValueChanged];
+    
     [self.tableView reloadData];
 }
 

@@ -19,7 +19,11 @@
 @property (nonatomic, strong) NSMutableArray *hacks;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) IBOutlet UIView *indicatorView;
 
 - (void)refreshHacks;
+- (IBAction)showFollowing:(id)sender;
+- (IBAction)showTrending:(id)sender;
+- (IBAction)showRecent:(id)sender;
 
 @end
