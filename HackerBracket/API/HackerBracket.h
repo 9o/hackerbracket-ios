@@ -19,11 +19,11 @@
     #define API_GET_USER    @"http://localhost:1337/api/accounts/users"
     #define API_GET_HACK    @"http://localhost:1337/api/hacks"
 #else
-    #define API_BASE_URL    @"http://hackerbracket.com/api/"
-    #define API_LOGIN       @"http://hackerbracket.com/api/login"
-    #define API_LOGOUT      @"http://hackerbracket.com/api/logout"
-    #define API_GET_USER    @"http://hackerbracket.com/api/accounts/users"
-    #define API_GET_HACK    @"http://hackerbracket.com/api/hacks"
+    #define API_BASE_URL    @"http://hackerbracket-api.herokuapp.com/api/"
+    #define API_LOGIN       @"http://hackerbracket-api.herokuapp.com/api/login"
+    #define API_LOGOUT      @"http://hackerbracket-api.herokuapp.com/api/logout"
+    #define API_GET_USER    @"http://hackerbracket-api.herokuapp.com/api/accounts/users"
+    #define API_GET_HACK    @"http://hackerbracket-api.herokuapp.com/api/hacks"
 #endif
 
 @interface HackerBracket : NSObject
