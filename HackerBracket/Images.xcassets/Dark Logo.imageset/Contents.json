@@ -2,8 +2,12 @@
   "images" : [
     {
       "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "hbwhite@2x.png"
+      "filename" : "logo@2x-1.png"
     }
   ],
   "info" : {

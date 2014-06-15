@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8BF0EDB0194D0A3F00971BCE /* HBLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BF0EDAF194D0A3F00971BCE /* HBLoginViewController.m */; };
 		941164A11944B09B00EF8681 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 949BFBF619424242004B94A6 /* CFNetwork.framework */; };
 		941164A21944B0A200EF8681 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 949BFBFC19424254004B94A6 /* SystemConfiguration.framework */; };
 		941164A31944B0A600EF8681 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 949BFBFA1942424C004B94A6 /* MobileCoreServices.framework */; };
@@ -44,7 +45,6 @@
 		947996F41944E4E40040C71F /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 947996EB1944E4E40040C71F /* AFURLSessionManager.m */; };
 		949BFAA419423DA6004B94A6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 949BFAA319423DA6004B94A6 /* main.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		949BFAA719423DA6004B94A6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 949BFAA619423DA6004B94A6 /* AppDelegate.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		949BFAAA19423DA6004B94A6 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 949BFAA919423DA6004B94A6 /* ViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		949BFAAD19423DA6004B94A6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 949BFAAB19423DA6004B94A6 /* Main.storyboard */; };
 		949BFAAF19423DA6004B94A6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 949BFAAE19423DA6004B94A6 /* Images.xcassets */; };
 		949BFABB19423DA6004B94A6 /* HackerBracketTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 949BFABA19423DA6004B94A6 /* HackerBracketTests.m */; };
@@ -64,6 +64,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8BF0EDAE194D0A3F00971BCE /* HBLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBLoginViewController.h; sourceTree = "<group>"; };
+		8BF0EDAF194D0A3F00971BCE /* HBLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBLoginViewController.m; sourceTree = "<group>"; };
 		941164A41944B0AE00EF8681 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		941164A61944B0BE00EF8681 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		94546A0B1947CE18008F8743 /* MKAnnotationView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKAnnotationView+WebCache.h"; sourceTree = "<group>"; };
@@ -130,8 +132,6 @@
 		949BFAA319423DA6004B94A6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		949BFAA519423DA6004B94A6 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		949BFAA619423DA6004B94A6 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		949BFAA819423DA6004B94A6 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		949BFAA919423DA6004B94A6 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		949BFAAC19423DA6004B94A6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		949BFAAE19423DA6004B94A6 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		949BFAB419423DA6004B94A6 /* HackerBracketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HackerBracketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -172,6 +172,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8BF0EDAD194D0A3200971BCE /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				8BF0EDAE194D0A3F00971BCE /* HBLoginViewController.h */,
+				8BF0EDAF194D0A3F00971BCE /* HBLoginViewController.m */,
+			);
+			name = Login;
+			sourceTree = "<group>";
+		};
 		94546A0A1947CE18008F8743 /* SDWebImage */ = {
 			isa = PBXGroup;
 			children = (
@@ -356,9 +365,8 @@
 		949BFAC519423DB4004B94A6 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				8BF0EDAD194D0A3200971BCE /* Login */,
 				946DFF1919467D1100F52E38 /* Feed */,
-				949BFAA819423DA6004B94A6 /* ViewController.h */,
-				949BFAA919423DA6004B94A6 /* ViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -517,7 +525,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				949BFAD119423E10004B94A6 /* HBHack.m in Sources */,
-				949BFAAA19423DA6004B94A6 /* ViewController.m in Sources */,
 				94546A371947CE18008F8743 /* UIImageView+HighlightedWebCache.m in Sources */,
 				949BFAA719423DA6004B94A6 /* AppDelegate.m in Sources */,
 				947996F31944E4E40040C71F /* AFURLResponseSerialization.m in Sources */,
@@ -542,6 +549,7 @@
 				947996F21944E4E40040C71F /* AFURLRequestSerialization.m in Sources */,
 				947996F41944E4E40040C71F /* AFURLSessionManager.m in Sources */,
 				94546A351947CE18008F8743 /* UIImage+MultiFormat.m in Sources */,
+				8BF0EDB0194D0A3F00971BCE /* HBLoginViewController.m in Sources */,
 				94546A331947CE18008F8743 /* UIButton+WebCache.m in Sources */,
 				947996F01944E4E40040C71F /* AFSecurityPolicy.m in Sources */,
 				94546A2A1947CE18008F8743 /* MKAnnotationView+WebCache.m in Sources */,
