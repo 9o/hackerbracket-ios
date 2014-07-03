@@ -16,11 +16,18 @@
 @property (nonatomic, copy) NSString *description;
 @property (nonatomic, copy) NSString *technologies;
 @property (nonatomic, copy) NSString *video;
-@property (nonatomic, copy) NSString *thumbnail;
+@property (nonatomic, copy) NSURL *thumbnail;
 @property (nonatomic, copy) NSString *owner;
-@property (nonatomic, copy) NSString *likes;
-@property (nonatomic, copy) NSString *comments;
-@property (nonatomic, copy) NSString *ownerAvatar;
+@property (nonatomic, copy) NSString *ownerName;
+@property (nonatomic, copy) NSString *ownerUsername;
+@property (nonatomic, copy) NSURL *ownerAvatar;
+@property (nonatomic, copy) NSNumber *likes;
+@property (nonatomic, copy) NSNumber *comments;
+@property (assign) BOOL isYouTube;
+@property (assign) BOOL isEncoded;
+@property (nonatomic, copy) NSDate *createdAt;
+@property (nonatomic, copy) NSArray *team;
+
 
 /*!
  Creates a new HBHack object.
@@ -30,10 +37,17 @@
      description:(NSString *)description
     technologies:(NSString *)technologies
            video:(NSString *)video
-       thumbnail:(NSString *)thumbnail
+       thumbnail:(NSURL *)thumbnail
            owner:(NSString *)owner
-           likes:(NSString *)likes
-        comments:(NSString *)comments;
+       ownerName:(NSString *)ownerName
+   ownerUsername:(NSString *)ownerUsername
+   ownerAvatar:(NSURL *)ownerAvatar
+           likes:(NSNumber *)likes
+        comments:(NSNumber *)comments
+       isYouTube:(BOOL)isYouTube
+       isEncoded:(BOOL)isEncoded
+       createdAt:(NSDate *)createdAt
+            team:(NSArray *)team;
 
 /*!
  Returns HBHack object by its id.
@@ -44,5 +58,10 @@
  Returns all hacks.
  */
 + (void)getHacksWithBlock:(void(^)(NSArray *hacks))block;
++ (void)submitHack:(NSString *)title description:(NSString *)description
+      technologies:(NSString *)technologies
+             video:(NSString *)video
+         thumbnail:(NSString *)thumbnail
+        completion:(void(^)(BOOL success, HBHack *hack))completion;
 
 @end

@@ -14,24 +14,32 @@
 
 - (id)initWithId:(NSString *)userId
            email:(NSString *)email
+           admin:(BOOL)admin
+             pro:(BOOL)pro
+       followers:(NSNumber *)followers
+       following:(NSNumber *)following
             name:(NSString *)name
         username:(NSString *)username
-        gravatar:(NSString *)gravatar
+        gravatar:(NSURL *)gravatar
           school:(NSString *)school
         location:(NSString *)location
            phone:(NSString *)phone
         linkedin:(NSString *)linkedin
          twitter:(NSString *)twitter
           github:(NSString *)github
-            site:(NSString *)site
+    personalSite:(NSString *)personalSite
+       createdAt:(NSDate *)createdAt
        languages:(NSString *)languages
        interests:(NSString *)interests
-      hackathons:(NSString *)hackathons {
+      attended:(NSString *)attended {
     
     self = [super init];
     if (self) {
         self.userId = userId;
         self.email = email;
+        self.admin = admin;
+        self.followers = followers;
+        self.following = following;
         self.name = name;
         self.username = username;
         self.gravatar = gravatar;
@@ -41,10 +49,11 @@
         self.linkedin = linkedin;
         self.twitter = twitter;
         self.github = github;
-        self.site = site;
+        self.personalSite = personalSite;
+        self.createdAt = createdAt;
         self.languages = languages;
         self.interests = interests;
-        self.hackathons = hackathons;
+        self.attended = attended;
     }
     return self;
 }
@@ -56,24 +65,32 @@
     NSDictionary *parameters = @{ @"email"   : email,
                                   @"password": password };
     
-    [manager POST:API_LOGIN parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [manager POST:[NSString stringWithFormat:@"%@/login",API_BASE_URL] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         if ([operation.response statusCode] == 200) {
-            HBUser *user = [[HBUser alloc] initWithId:responseObject[@"user"][@"id"]
-                                                email:responseObject[@"user"][@"email"]
-                                                 name:responseObject[@"user"][@"name"]
-                                             username:responseObject[@"user"][@"username"]
-                                             gravatar:responseObject[@"user"][@"gravatar"]
-                                               school:responseObject[@"user"][@"school"]
-                                             location:responseObject[@"user"][@"location"]
-                                                phone:responseObject[@"user"][@"phone"]
-                                             linkedin:responseObject[@"user"][@"linkedIn"]
-                                              twitter:responseObject[@"user"][@"twitter"]
-                                               github:responseObject[@"user"][@"github"]
-                                                 site:responseObject[@"user"][@"personalSite"]
-                                            languages:responseObject[@"user"][@"languages"]
-                                            interests:responseObject[@"user"][@"interests"]
-                                           hackathons:responseObject[@"user"][@"attended"]];
-            block(user);
+            NSDictionary *user = responseObject[@"user"];
+            HBUser *theUser = [[HBUser alloc]
+                               initWithId:user[@"id"]
+                               email:user[@"email"]
+                               admin:[user[@"admin"] boolValue]
+                               pro:[user[@"pro"] boolValue]
+                               followers:user[@"followers"]
+                               following:user[@"following"]
+                               name:user[@"name"]
+                               username:user[@"username"]
+                               gravatar:[NSURL URLWithString:user[@"gravatar"]]
+                               school:user[@"school"]
+                               location:user[@"location"]
+                               phone:user[@"phone"]
+                               linkedin:user[@"linkedIn"]
+                               twitter:user[@"twitter"]
+                               github:user[@"github"]
+                               personalSite:user[@"personalSite"]
+                               createdAt:[NSDate alloc]
+                               languages:user[@"languages"]
+                               interests:user[@"interests"]
+                               attended:user[@"attended"]];
+
+            block(theUser);
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -85,7 +102,7 @@
 
 + (void)logOutWithBlock:(void(^)(BOOL success))block {
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    [manager POST:API_LOGOUT parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [manager POST:[NSString stringWithFormat:@"%@/logout",API_BASE_URL] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         if ([operation.response statusCode] == 200) {
             block(true);
         } else {
@@ -99,39 +116,33 @@
 
 #pragma mark - Get User
 
-+ (void)getUser:(NSString *)userId block:(void(^)(HBUser *user))block {
++ (void)getUser:(NSString *)username block:(void(^)(HBUser *user))block {
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    [manager GET:[NSString stringWithFormat:@"%@/%@", API_GET_USER, userId] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        HBUser *user = [[HBUser alloc] initWithId:responseObject[@"user"][@"id"]
-                                            email:responseObject[@"user"][@"email"]
-                                             name:responseObject[@"user"][@"name"]
-                                         username:responseObject[@"user"][@"username"]
-                                         gravatar:responseObject[@"user"][@"gravatar"]
-                                           school:responseObject[@"user"][@"school"]
-                                         location:responseObject[@"user"][@"location"]
-                                            phone:responseObject[@"user"][@"phone"]
-                                         linkedin:responseObject[@"user"][@"linkedIn"]
-                                          twitter:responseObject[@"user"][@"twitter"]
-                                           github:responseObject[@"user"][@"github"]
-                                             site:responseObject[@"user"][@"personalSite"]
-                                        languages:responseObject[@"user"][@"languages"]
-                                        interests:responseObject[@"user"][@"interests"]
-                                       hackathons:responseObject[@"user"][@"attended"]];
+    [manager GET:[NSString stringWithFormat:@"%@/accounts/users/%@",API_BASE_URL,username] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSDictionary *user = responseObject[@"user"];
+        HBUser *theUser = [[HBUser alloc]
+                           initWithId:user[@"id"]
+                           email:user[@"email"]
+                           admin:[user[@"admin"] boolValue]
+                           pro:[user[@"pro"] boolValue]
+                           followers:user[@"followers"]
+                           following:user[@"following"]
+                           name:user[@"name"]
+                           username:user[@"username"]
+                           gravatar:[NSURL URLWithString:user[@"gravatar"]]
+                           school:user[@"school"]
+                           location:user[@"location"]
+                           phone:user[@"phone"]
+                           linkedin:user[@"linkedIn"]
+                           twitter:user[@"twitter"]
+                           github:user[@"github"]
+                           personalSite:user[@"personalSite"]
+                           createdAt:[NSDate alloc]
+                           languages:user[@"languages"]
+                           interests:user[@"interests"]
+                           attended:user[@"attended"]];
         
-        block(user);
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Error: %@", [error localizedDescription]);
-    }];
-}
-
-#pragma mark - Get User Avatar
-
-+ (void)getUserAvatar:(NSString *)userId block:(void(^)(NSString *gravatar))block {
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    [manager GET:[NSString stringWithFormat:@"%@/%@", API_GET_USER, userId] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        block(responseObject[@"user"][@"gravatar"]);
+        block(theUser);
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", [error localizedDescription]);
@@ -142,7 +153,7 @@
 
 + (void)followUser:(NSString *)userId block:(void(^)(BOOL success))block {
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    [manager POST:[NSString stringWithFormat:@"%@/%@/followers", API_GET_USER, userId] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [manager POST:[NSString stringWithFormat:@"%@/accounts/users/%@/followers",API_BASE_URL, userId] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         block(true);
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -154,7 +165,7 @@
 
 + (void)unfollowUser:(NSString *)userId block:(void (^)(BOOL))block {
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    [manager DELETE:[NSString stringWithFormat:@"%@/%@/followers", API_GET_USER, userId] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [manager DELETE:[NSString stringWithFormat:@"%@/accounts/users/%@/followers",API_BASE_URL, userId] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         block(true);
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -167,7 +178,7 @@
 
 + (void)getFollowers:(NSString *)userId block:(void(^)(NSArray *followers))block {
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    [manager GET:[NSString stringWithFormat:@"%@/%@/followers", API_GET_USER, userId] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [manager GET:[NSString stringWithFormat:@"%@/accounts/users/%@/followers",API_BASE_URL, userId] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"res: %@", responseObject);
         /*
          NSMutableArray *hacks = [NSMutableArray array];
@@ -213,7 +224,7 @@
                                   @"github"    : [info valueForKey:@"github"],
                                 };
     
-    [manager PUT:[NSString stringWithFormat:@"%@/%@", API_GET_USER, userId] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [manager PUT:[NSString stringWithFormat:@"%@/accounts/users/%@",API_BASE_URL, userId] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"res: %@", responseObject);
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

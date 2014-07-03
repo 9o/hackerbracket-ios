@@ -12,20 +12,8 @@
 #import "HBUser.h"
 #import "HBHack.h"
 
-#ifdef DEBUG
-    #define API_BASE_URL    @"http://localhost:1337/api/"
-    #define API_LOGIN       @"http://localhost:1337/api/login"
-    #define API_LOGOUT      @"http://localhost:1337/api/logout"
-    #define API_GET_USER    @"http://localhost:1337/api/accounts/users"
-    #define API_GET_HACK    @"http://localhost:1337/api/hacks"
-#else
-    #define API_BASE_URL    @"http://hackerbracket-api.herokuapp.com/api/"
-    #define API_LOGIN       @"http://hackerbracket-api.herokuapp.com/api/login"
-    #define API_LOGOUT      @"http://hackerbracket-api.herokuapp.com/api/logout"
-    #define API_GET_USER    @"http://hackerbracket-api.herokuapp.com/api/accounts/users"
-    #define API_GET_HACK    @"http://hackerbracket-api.herokuapp.com/api/hacks"
-#endif
 
+#define API_BASE_URL    @"http://hackerbracket-api.herokuapp.com/api"
 @interface HackerBracket : NSObject
 
 /*!

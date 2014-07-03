@@ -13,39 +13,50 @@
 
 @property (nonatomic, copy) NSString *userId;
 @property (nonatomic, copy) NSString *email;
+
+@property (assign) BOOL admin;
+@property (assign) BOOL pro;
+@property (nonatomic, copy) NSNumber *followers;
+@property (nonatomic, copy) NSNumber *following;
+
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *username;
-@property (nonatomic, copy) NSString *gravatar;
+@property (nonatomic, copy) NSURL *gravatar;
 @property (nonatomic, copy) NSString *school;
 @property (nonatomic, copy) NSString *location;
 @property (nonatomic, copy) NSString *phone;
 @property (nonatomic, copy) NSString *linkedin;
 @property (nonatomic, copy) NSString *twitter;
 @property (nonatomic, copy) NSString *github;
-@property (nonatomic, copy) NSString *site;
-
+@property (nonatomic, copy) NSString *personalSite;
+@property (nonatomic, copy) NSDate *createdAt;
 @property (nonatomic, copy) NSString *languages;
 @property (nonatomic, copy) NSString *interests;
-@property (nonatomic, copy) NSString *hackathons;
+@property (nonatomic, copy) NSString *attended;
 
 /*!
  Creates a new HBUser object.
  */
 - (id)initWithId:(NSString *)userId
            email:(NSString *)email
+           admin:(BOOL)admin
+             pro:(BOOL)pro
+       followers:(NSNumber *)followers
+       following:(NSNumber *)following
             name:(NSString *)name
         username:(NSString *)username
-        gravatar:(NSString *)gravatar
+        gravatar:(NSURL *)gravatar
           school:(NSString *)school
         location:(NSString *)location
            phone:(NSString *)phone
         linkedin:(NSString *)linkedin
          twitter:(NSString *)twitter
           github:(NSString *)github
-            site:(NSString *)site
+    personalSite:(NSString *)personalSite
+       createdAt:(NSDate *)createdAt
        languages:(NSString *)languages
        interests:(NSString *)interests
-      hackathons:(NSString *)hackathons;
+        attended:(NSString *)attended;
 
 /*!
  Returns a user object if the user was logged in successfully.

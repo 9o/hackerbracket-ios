@@ -17,10 +17,17 @@
      description:(NSString *)description
     technologies:(NSString *)technologies
            video:(NSString *)video
-       thumbnail:(NSString *)thumbnail
+       thumbnail:(NSURL *)thumbnail
            owner:(NSString *)owner
-           likes:(NSString *)likes
-        comments:(NSString *)comments {
+       ownerName:(NSString *)ownerName
+   ownerUsername:(NSString *)ownerUsername
+   ownerAvatar:(NSURL *)ownerAvatar
+           likes:(NSNumber *)likes
+        comments:(NSNumber *)comments
+       isYouTube:(BOOL)isYouTube
+       isEncoded:(BOOL)isEncoded
+       createdAt:(NSDate *)createdAt
+            team:(NSArray *)team {
     
     self = [super init];
     if (self) {
@@ -31,12 +38,14 @@
         self.video = video;
         self.thumbnail = thumbnail;
         self.owner = owner;
+        self.ownerName = ownerName;
+        self.ownerUsername = ownerUsername;
+        self.ownerAvatar = ownerAvatar;
         self.likes = likes;
         self.comments = comments;
-        
-        [HBUser getUserAvatar:self.owner block:^(NSString *gravatar) {
-            self.ownerAvatar = gravatar;
-        }];
+        self.isEncoded = isEncoded;
+        self.isYouTube = isYouTube;
+        self.team = team;
     }
     return self;
 }
@@ -45,17 +54,28 @@
 
 + (void)getHackById:(NSString *)hackId block:(void(^)(HBHack *hack))block {
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    [manager GET:[NSString stringWithFormat:@"%@/%@", API_GET_HACK, hackId] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        HBHack *hack = [[HBHack alloc] initWithId:responseObject[@"hack"][@"id"]
-                                            title:responseObject[@"hack"][@"title"]
-                                      description:responseObject[@"hack"][@"description"]
-                                     technologies:responseObject[@"hack"][@"technologies"]
-                                            video:responseObject[@"hack"][@"video"]
-                                        thumbnail:responseObject[@"hack"][@"thumbnail"]
-                                            owner:responseObject[@"hack"][@"owner"]
-                                            likes:responseObject[@"hack"][@"likeCount"]
-                                         comments:responseObject[@"hack"][@"commentCount"]];
-        block(hack);
+    [manager GET:[NSString stringWithFormat:@"%@/hacks/%@",API_BASE_URL,hackId] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSDictionary *hack = responseObject[@"hack"];
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.ZZZ'z'"];
+        [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
+        HBHack *theHack = [[HBHack alloc] initWithId:hack[@"id"]
+                                            title:hack[@"title"]
+                                      description:hack[@"description"]
+                                     technologies:hack[@"technologies"]
+                                            video:hack[@"video"]
+                                        thumbnail:[NSURL URLWithString:hack[@"thumbnail"]]
+                                            owner:hack[@"owner"]
+                                            ownerName:hack[@"ownerName"]
+                                       ownerUsername:hack[@"ownerUsername"]
+                                         ownerAvatar:[NSURL URLWithString:hack[@"ownerGravatar"]]
+                                            likes:hack[@"likeCount"]
+                                         comments:hack[@"commentCount"]
+                                        isYouTube:[hack[@"isYoutube"] boolValue]
+                                        isEncoded:[hack[@"isEncoded"] boolValue]
+                                        createdAt: [dateFormatter dateFromString:hack[@"createdAt"]]
+                                             team:hack[@"team"]];
+        block(theHack);
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", [error localizedDescription]);
@@ -66,20 +86,29 @@
 
 + (void)getHacksWithBlock:(void (^)(NSArray *))block {
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    [manager GET:API_GET_HACK parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [manager GET:[NSString stringWithFormat:@"%@/hacks/recent",API_BASE_URL] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSMutableArray *hacks = [NSMutableArray array];
-        
-        for (id object in responseObject[@"hacks"]) {
-            HBHack *hack = [[HBHack alloc] initWithId:object[@"id"]
-                                                title:object[@"title"]
-                                          description:object[@"description"]
-                                         technologies:object[@"technologies"]
-                                                video:object[@"video"]
-                                            thumbnail:object[@"thumbnail"]
-                                                owner:object[@"owner"]
-                                                likes:object[@"likeCount"]
-                                             comments:object[@"commentCount"]];
-            [hacks addObject:hack];
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.ZZZ'z'"];
+        [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
+        for (id hack in responseObject[@"hacks"]) {
+            HBHack *theHack = [[HBHack alloc] initWithId:hack[@"id"]
+                                                   title:hack[@"title"]
+                                             description:hack[@"description"]
+                                            technologies:hack[@"technologies"]
+                                                   video:hack[@"video"]
+                                               thumbnail:[NSURL URLWithString:hack[@"thumbnail"]]
+                                                   owner:hack[@"owner"]
+                                               ownerName:hack[@"ownerName"]
+                                           ownerUsername:hack[@"ownerUsername"]
+                                             ownerAvatar:[NSURL URLWithString:hack[@"ownerGravatar"]]
+                                                   likes:hack[@"likeCount"]
+                                                comments:hack[@"commentCount"]
+                                               isYouTube:[hack[@"isYoutube"] boolValue]
+                                               isEncoded:[hack[@"isEncoded"] boolValue]
+                                               createdAt: [dateFormatter dateFromString:hack[@"createdAt"]]
+                                                    team:hack[@"team"]];
+            [hacks addObject:theHack];
         }
 
         block(hacks);
@@ -87,6 +116,15 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", [error localizedDescription]);
     }];
+}
+
++ (void)submitHack:(NSString *)title description:(NSString *)description
+      technologies:(NSString *)technologies
+             video:(NSURL *)videoURL
+           youtube:(NSString *)youtube
+         thumbnail:(NSString *)thumbnail
+        completion:(void(^)(BOOL success, HBHack *hack))completion {
+    
 }
 
 @end

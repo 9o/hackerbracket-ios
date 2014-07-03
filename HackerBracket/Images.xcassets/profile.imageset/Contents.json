@@ -3,7 +3,12 @@
     {
       "idiom" : "universal",
       "scale" : "1x",
-      "filename" : "profile.png"
+      "filename" : "user_ffffff_20.png"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "2x",
+      "filename" : "user_ffffff_40.png"
     }
   ],
   "info" : {

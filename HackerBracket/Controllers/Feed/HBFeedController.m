@@ -7,8 +7,10 @@
 //
 
 #import "HBFeedController.h"
+#import "HBHackViewController.h"
 
 @implementation HBFeedController
+BOOL hasLoadedData = FALSE;
 
 #pragma mark - Init
 
@@ -75,8 +77,8 @@
     [cell.hackLikesLabel setText:[NSString stringWithFormat:@"%@", hack.likes]];
     [cell.hackCommentsLabel setText:[NSString stringWithFormat:@"%@", hack.comments]];
     
-    [cell.hackAvatarImageView setImageWithURL:[NSURL URLWithString:hack.ownerAvatar]
-                             placeholderImage:[UIImage imageNamed:@"placeholder"]];
+    [cell.hackAvatarImageView setImageWithURL:hack.ownerAvatar
+                             placeholderImage:[UIImage imageNamed:@"Loading Thumbnail"]];
     
     UIGraphicsBeginImageContextWithOptions(cell.hackAvatarImageView.bounds.size, NO, [UIScreen mainScreen].scale);
     [[UIBezierPath bezierPathWithRoundedRect:cell.hackAvatarImageView.bounds
@@ -86,38 +88,49 @@
     cell.hackAvatarImageView.image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     
-    [cell.hackImageView setImageWithURL:[NSURL URLWithString:hack.thumbnail]
-                       placeholderImage:[UIImage imageNamed:@"placeholder"]];
+    [cell.hackImageView setImageWithURL:hack.thumbnail
+                       placeholderImage:[UIImage imageNamed:@"Loading Thumbnail"]];
     
     return cell;
 }
 
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"showHack"]) {
+        HBHack *hack = [self.hacks objectAtIndex:[[self.tableView indexPathForSelectedRow] row]];
+        NSLog(@"%@",hack.technologies);
+        HBHackViewController *vc = segue.destinationViewController;
+        vc.hack = hack;
+    }
+}
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath
+                                  animated:YES]
+    ;
+}
 #pragma mark - View
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewDidAppear:(BOOL)animated {
+    if (!hasLoadedData) {
+        hasLoadedData = TRUE;
     self.hacks = [NSMutableArray array];
-    
-    [HBUser login:@"notryancohen@gmail.com" password:@"password" block:^(HBUser *currentUser) {
-        if (currentUser) {
-            [self refreshHacks];
-        }
-    }];
-    
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self.tableView reloadData];
-    });
+        [self.tableView setContentOffset:CGPointMake(0, -self.indicatorView.frame.size.height) animated:YES];
+
+[self refreshHacks];
+    }
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:144.0/255.0 green:204.0/255.0 blue:92.0/255.0 alpha:1.0];
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    self.navigationController.navigationBar.translucent = NO;
+    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor whiteColor]};
+    self.navigationController.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Light Logo"]];
     // Setup refresh control
     self.refreshControl = [UIRefreshControl new];
     [self.refreshControl setTintColor:[UIColor colorWithRed:90/255.0f green:184/255.0f blue:77/255.0f alpha:1.0f]];
     [self.tableView addSubview:self.refreshControl];
     [self.refreshControl addTarget:self action:@selector(refreshHacks) forControlEvents:UIControlEventValueChanged];
-    
-    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "HBUser.h"
 
+@import Security;
+
 @interface HBLoginViewController : UIViewController
 
 @property (strong, nonatomic) IBOutlet UITextField *emailTextField;
