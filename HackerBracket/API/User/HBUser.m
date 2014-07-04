@@ -174,36 +174,6 @@
     }];
 }
 
-#pragma mark - Get Followers
-
-+ (void)getFollowers:(NSString *)userId block:(void(^)(NSArray *followers))block {
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    [manager GET:[NSString stringWithFormat:@"%@/accounts/users/%@/followers",API_BASE_URL, userId] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"res: %@", responseObject);
-        /*
-         NSMutableArray *hacks = [NSMutableArray array];
-         
-         for (id object in responseObject[@"hacks"]) {
-            HBHack *hack = [[HBHack alloc] initWithId:object[@"id"]
-            title:object[@"title"]
-            description:object[@"description"]
-            technologies:object[@"technologies"]
-            video:object[@"video"]
-            thumbnail:object[@"thumbnail"]
-            owner:object[@"owner"]
-            likes:object[@"likeCount"]
-            comments:object[@"commentCount"]];
-         [hacks addObject:hack];
-         }
-         
-         block(hacks);
-         */
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Error: %@", [error localizedDescription]);
-    }];
-}
-
 #pragma mark - Update User
 
 + (void)updateUser:(NSString *)userId withInfo:(NSDictionary *)info {

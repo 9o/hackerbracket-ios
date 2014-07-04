@@ -25,34 +25,39 @@ BOOL hasLoadedData = FALSE;
 #pragma mark - Methods
 
 - (void)refreshHacks {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [HBHack getHacksWithBlock:^(NSArray *hacks) {
+    NSLog(@"%u",type);
+    self.isLoading = TRUE;
+        [HBHack getHacks:type skip:0 withBlock:^(NSArray *hacks) {
+            self.isLoading = FALSE;
             [self.hacks removeAllObjects];
             
             for (HBHack *hack in hacks) {
                 [self.hacks addObject:hack];
             }
+            [self.tableView reloadData];
+            [self.refreshControl endRefreshing];
         }];
-    });
-    
-    NSLog(@"Count: %lu", (unsigned long)[self.hacks count]);
-    [self.tableView reloadData];
-    [self.refreshControl endRefreshing];
 }
 
 - (IBAction)showFollowing:(id)sender {
+    type = Following;
+    [self refreshHacks];
     [UIView animateWithDuration:0.2 animations:^{
         self.indicatorView.frame = CGRectMake(10, 35, 75, 5);
     }];
 }
 
 - (IBAction)showTrending:(id)sender {
+    type = Trending;
+    [self refreshHacks];
     [UIView animateWithDuration:0.2 animations:^{
         self.indicatorView.frame = CGRectMake(103, 35, 75, 5);
     }];
 }
 
 - (IBAction)showRecent:(id)sender {
+    type = Recent;
+    [self refreshHacks];
     [UIView animateWithDuration:0.2 animations:^{
         self.indicatorView.frame = CGRectMake(196, 35, 75, 5);
     }];
@@ -120,6 +125,7 @@ BOOL hasLoadedData = FALSE;
 }
 
 - (void)viewDidLoad {
+    type = Recent;
     [super viewDidLoad];
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:144.0/255.0 green:204.0/255.0 blue:92.0/255.0 alpha:1.0];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
@@ -137,15 +143,39 @@ BOOL hasLoadedData = FALSE;
     [super didReceiveMemoryWarning];
 }
 
-/*
-#pragma mark - Navigation
+- (void)scrollViewDidScroll:(UIScrollView *)aScrollView {
+    CGPoint offset = aScrollView.contentOffset;
+    CGRect bounds = aScrollView.bounds;
+    CGSize size = aScrollView.contentSize;
+    UIEdgeInsets inset = aScrollView.contentInset;
+    float y = offset.y + bounds.size.height - inset.bottom;
+    float h = size.height;
+    // NSLog(@"offset: %f", offset.y);
+    // NSLog(@"content.height: %f", size.height);
+    // NSLog(@"bounds.height: %f", bounds.size.height);
+    // NSLog(@"inset.top: %f", inset.top);
+    // NSLog(@"inset.bottom: %f", inset.bottom);
+    // NSLog(@"pos: %f of %f", y, h);
+    
+    float reload_distance = 10;
+    if(y > h + reload_distance) {
+        if (!self.isLoading) {
+            self.isLoading = TRUE;
+            self.skip = self.skip + 25;
+            [HBHack getHacks:type skip:self.skip withBlock:^(NSArray *hacks) {
+                self.isLoading = FALSE;
+                // If there are no hacks, we are at the bottom. Prevent more requests by saying it is already loading.
+                if ([hacks count] == 0) {
+                    self.isLoading = TRUE;
+                }
+                for (HBHack *hack in hacks) {
+                    [self.hacks addObject:hack];
+                }
+                [self.tableView reloadData];
+            }];
+        }
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    }
 }
-*/
 
 @end

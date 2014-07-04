@@ -16,6 +16,8 @@
 		8BA4EC8B19636B4E002FBD81 /* HBLikesTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BA4EC8A19636B4E002FBD81 /* HBLikesTableViewCell.m */; };
 		8BE29AC91965466800502666 /* HBFollowTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BE29AC81965466800502666 /* HBFollowTableViewController.m */; };
 		8BE29ACC196546DF00502666 /* HBFollowTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BE29ACB196546DF00502666 /* HBFollowTableViewCell.m */; };
+		8BE29ACF19666A3900502666 /* HBFollow.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BE29ACE19666A3900502666 /* HBFollow.m */; };
+		8BE29AD4196683A200502666 /* HBComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BE29AD3196683A200502666 /* HBComment.m */; };
 		8BEE3BE81964A8500057B7D0 /* HBNewCommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BEE3BE71964A8500057B7D0 /* HBNewCommentTableViewCell.m */; };
 		8BEE3BEB1964C0BC0057B7D0 /* HBProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BEE3BEA1964C0BC0057B7D0 /* HBProfileViewController.m */; };
 		8BEE3BEF1964C0E00057B7D0 /* HBProfileEditTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BEE3BEE1964C0E00057B7D0 /* HBProfileEditTableViewController.m */; };
@@ -119,6 +121,10 @@
 		8BE29AC81965466800502666 /* HBFollowTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBFollowTableViewController.m; sourceTree = "<group>"; };
 		8BE29ACA196546DF00502666 /* HBFollowTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBFollowTableViewCell.h; sourceTree = "<group>"; };
 		8BE29ACB196546DF00502666 /* HBFollowTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBFollowTableViewCell.m; sourceTree = "<group>"; };
+		8BE29ACD19666A3900502666 /* HBFollow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBFollow.h; sourceTree = "<group>"; };
+		8BE29ACE19666A3900502666 /* HBFollow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBFollow.m; sourceTree = "<group>"; };
+		8BE29AD2196683A200502666 /* HBComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBComment.h; sourceTree = "<group>"; };
+		8BE29AD3196683A200502666 /* HBComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBComment.m; sourceTree = "<group>"; };
 		8BEE3BE61964A8500057B7D0 /* HBNewCommentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBNewCommentTableViewCell.h; sourceTree = "<group>"; };
 		8BEE3BE71964A8500057B7D0 /* HBNewCommentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBNewCommentTableViewCell.m; sourceTree = "<group>"; };
 		8BEE3BE91964C0BC0057B7D0 /* HBProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBProfileViewController.h; sourceTree = "<group>"; };
@@ -275,6 +281,24 @@
 				8BEE3BE71964A8500057B7D0 /* HBNewCommentTableViewCell.m */,
 			);
 			name = Cells;
+			sourceTree = "<group>";
+		};
+		8BE29AD019666A9B00502666 /* Follow */ = {
+			isa = PBXGroup;
+			children = (
+				8BE29ACD19666A3900502666 /* HBFollow.h */,
+				8BE29ACE19666A3900502666 /* HBFollow.m */,
+			);
+			name = Follow;
+			sourceTree = "<group>";
+		};
+		8BE29AD11966839600502666 /* Comment */ = {
+			isa = PBXGroup;
+			children = (
+				8BE29AD2196683A200502666 /* HBComment.h */,
+				8BE29AD3196683A200502666 /* HBComment.m */,
+			);
+			name = Comment;
 			sourceTree = "<group>";
 		};
 		8BEE3BEC1964C0C30057B7D0 /* Profile */ = {
@@ -528,6 +552,8 @@
 		949BFAC619423DC0004B94A6 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				8BE29AD11966839600502666 /* Comment */,
+				8BE29AD019666A9B00502666 /* Follow */,
 				949BFACE19423E03004B94A6 /* Hack */,
 				949BFACA19423DF2004B94A6 /* User */,
 				949BFAD319423EF7004B94A6 /* HackerBracket.h */,
@@ -687,6 +713,7 @@
 				949BFAD119423E10004B94A6 /* HBHack.m in Sources */,
 				94546A371947CE18008F8743 /* UIImageView+HighlightedWebCache.m in Sources */,
 				949BFAA719423DA6004B94A6 /* AppDelegate.m in Sources */,
+				8BE29AD4196683A200502666 /* HBComment.m in Sources */,
 				947996F31944E4E40040C71F /* AFURLResponseSerialization.m in Sources */,
 				8BEE3BE81964A8500057B7D0 /* HBNewCommentTableViewCell.m in Sources */,
 				949BFAA419423DA6004B94A6 /* main.m in Sources */,
@@ -710,6 +737,7 @@
 				8B5E761419634E8900BB1986 /* HBRecordViewController.m in Sources */,
 				9479968A1944B2540040C71F /* Reachability.m in Sources */,
 				8BA4EC8819636B3E002FBD81 /* HBUserTableViewCell.m in Sources */,
+				8BE29ACF19666A3900502666 /* HBFollow.m in Sources */,
 				947996EE1944E4E40040C71F /* AFHTTPSessionManager.m in Sources */,
 				94546A2C1947CE18008F8743 /* SDImageCache.m in Sources */,
 				94546A2F1947CE18008F8743 /* SDWebImageDownloader.m in Sources */,

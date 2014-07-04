@@ -16,5 +16,6 @@
 @property (weak, nonatomic) IBOutlet UIView *videoView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) UIImageView *hackImageView;
+@property (strong, nonatomic) NSArray *comments;
 
 @end

@@ -74,11 +74,6 @@
 + (void)getUser:(NSString *)userId block:(void(^)(HBUser *user))block;
 
 /*!
- Gets user's avatar by their id.
- */
-+ (void)getUserAvatar:(NSString *)userId block:(void(^)(NSString *gravatar))block;
-
-/*!
  Follows a user by their id.
  */
 + (void)followUser:(NSString *)userId block:(void(^)(BOOL success))block;
@@ -87,6 +82,11 @@
  Gets current users' followers.
  */
 + (void)getFollowers:(NSString *)userId block:(void(^)(NSArray *followers))block;
+
+/*!
+ Gets current users' followers.
+ */
++ (void)getFollowing:(NSString *)userId block:(void(^)(NSArray *followers))block;
 
 /*!
  Unfollows user by their id.

@@ -11,7 +11,7 @@
 
 #import "HBUser.h"
 #import "HBHack.h"
-
+#import "HBFollow.h"
 
 #define API_BASE_URL    @"http://hackerbracket-api.herokuapp.com/api"
 @interface HackerBracket : NSObject

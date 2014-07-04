@@ -28,6 +28,12 @@
 @property (nonatomic, copy) NSDate *createdAt;
 @property (nonatomic, copy) NSArray *team;
 
+typedef enum {
+    Trending,
+    Following,
+    Recent,
+} HackListType;
+
 
 /*!
  Creates a new HBHack object.
@@ -57,7 +63,7 @@
 /*!
  Returns all hacks.
  */
-+ (void)getHacksWithBlock:(void(^)(NSArray *hacks))block;
++ (void)getHacks:(int)hackType skip:(int)skip withBlock:(void (^)(NSArray *))block;
 + (void)submitHack:(NSString *)title description:(NSString *)description
       technologies:(NSString *)technologies
              video:(NSString *)video

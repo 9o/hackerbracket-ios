@@ -13,6 +13,7 @@
 #import "HBTitleTableViewCell.h"
 #import "UIImageView+AFNetworking.h"
 #import "HBNewCommentTableViewCell.h"
+#import "HBComment.h"
 
 @interface HBHackViewController ()
 
@@ -23,6 +24,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [HBComment geCommentsForHack:self.hack.hackId block:^(NSArray *comments) {
+        self.comments = comments;
+        NSLog(@"%@",comments);
+        [self.tableView reloadData];
+    }];
 }
 -(void)viewDidAppear:(BOOL)animated {
     NSLog(self.hack.isYouTube ? @"Yes" : @"No");
@@ -83,7 +89,7 @@
         {
             cell = [[HBUserTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"user"];
         }
-        [cell.usernameButton setTitle:self.hack.owner forState:UIControlStateNormal];
+        [cell.usernameButton setTitle:self.hack.ownerName forState:UIControlStateNormal];
         [cell.followButton addTarget:self action:@selector(follow:) forControlEvents:UIControlEventTouchUpInside];
         [cell.profileImage setImageWithURL:self.hack.ownerAvatar placeholderImage:[UIImage imageNamed:@"avatar"]];
         return cell;
@@ -99,6 +105,10 @@
         {
             cell = [[HBCommentTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"comment"];
         }
+        HBComment *comment = [self.comments objectAtIndex:[indexPath row]-4];
+        cell.commentText.text = comment.body;
+        [cell.usernameButton setTitle:comment.ownerName forState:UIControlStateNormal];
+        [cell.userImage setImageWithURL:comment.ownerGravatar placeholderImage:[UIImage imageNamed:@"profile"]];
         return cell;
     }
 
@@ -126,7 +136,7 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 4 + 0;
+    return 4 + [self.comments count];
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

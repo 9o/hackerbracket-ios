@@ -72,8 +72,8 @@
     HBProfileEditTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"edit" forIndexPath:indexPath];
     
     NSDictionary *currentCell = [self.profileItems objectAtIndex:[indexPath row]];
-    cell.keyLabel.text = [currentCell objectForKey:@"display"];
-    cell.valueLabel.placeholder = [currentCell objectForKey:@"placeholder"];
+    cell.keyLabel.text = currentCell[@"display"];
+    cell.valueLabel.placeholder = currentCell[@"placeholder"];
     return cell;
 }
 

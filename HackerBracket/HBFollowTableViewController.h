@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HackerBracket.h"
 
 @interface HBFollowTableViewController : UITableViewController
+@property (assign) BOOL showFollowing;
+@property (nonatomic, strong) NSString *user;
+@property (nonatomic, strong) NSArray *people;
 
 @end

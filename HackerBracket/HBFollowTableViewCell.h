@@ -9,5 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface HBFollowTableViewCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UILabel *usernameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *profileImage;
 
 @end

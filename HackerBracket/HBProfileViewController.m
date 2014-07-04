@@ -8,6 +8,7 @@
 
 #import "HBProfileViewController.h"
 #import "UIImageView+AFNetworking.h"
+#import "HBFollowTableViewController.h"
 
 @interface HBProfileViewController ()
 
@@ -61,15 +62,16 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([[segue identifier]  isEqualToString:@"following"]) {
+        HBFollowTableViewController *vc = [segue destinationViewController];
+        vc.showFollowing = TRUE;
+        vc.user = self.user.userId;
+    } else if ([[segue identifier]  isEqualToString:@"followers"]) {
+        HBFollowTableViewController *vc = [segue destinationViewController];
+        vc.showFollowing = FALSE;
+        vc.user = self.user.userId;
+    }
 }
-*/
 
 @end
