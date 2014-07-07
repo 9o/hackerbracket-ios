@@ -16,6 +16,8 @@
 
 @property (assign) BOOL admin;
 @property (assign) BOOL pro;
+@property (assign) BOOL isFollowing;
+
 @property (nonatomic, copy) NSNumber *followers;
 @property (nonatomic, copy) NSNumber *following;
 
@@ -41,6 +43,7 @@
            email:(NSString *)email
            admin:(BOOL)admin
              pro:(BOOL)pro
+     isFollowing:(BOOL)isFollowing
        followers:(NSNumber *)followers
        following:(NSNumber *)following
             name:(NSString *)name
@@ -78,15 +81,10 @@
  */
 + (void)followUser:(NSString *)userId block:(void(^)(BOOL success))block;
 
-/*!
- Gets current users' followers.
+/*
+ Checks if the given user is the current user.
  */
-+ (void)getFollowers:(NSString *)userId block:(void(^)(NSArray *followers))block;
-
-/*!
- Gets current users' followers.
- */
-+ (void)getFollowing:(NSString *)userId block:(void(^)(NSArray *followers))block;
++ (BOOL)isCurrentUser:(HBUser *)user;
 
 /*!
  Unfollows user by their id.

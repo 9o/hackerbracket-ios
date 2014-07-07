@@ -9,18 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "HBUser.h"
 
-@interface HBProfileViewController : UIViewController
+@interface HBProfileViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
-@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
-@property (weak, nonatomic) IBOutlet UITextView *profileInfo;
-@property (weak, nonatomic) IBOutlet UILabel *usernameLabel;
-@property (weak, nonatomic) IBOutlet UIImageView *profileImage;
-@property (weak, nonatomic) IBOutlet UIButton *followersButton;
-@property (weak, nonatomic) IBOutlet UIButton *followingButton;
-@property (weak, nonatomic) IBOutlet UIButton *hacksButton;
-@property (weak, nonatomic) IBOutlet UILabel *rankLabel;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *editButton;
 @property (weak, nonatomic) HBUser *user;
+@property (strong, nonatomic) NSArray *hacks;
 @property (weak, nonatomic) NSString *username;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end

@@ -111,4 +111,42 @@
     
 }
 
+
+
+
+
++ (void)getHacksForUser:(NSString *)user withBlock:(void (^)(NSArray *))block {
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+
+    [manager GET:[NSString stringWithFormat:@"%@/accounts/users/%@/hacks",API_BASE_URL,user] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSMutableArray *hacks = [NSMutableArray array];
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.ZZZ'z'"];
+        [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
+        for (id hack in responseObject[@"hacks"]) {
+            HBHack *theHack = [[HBHack alloc] initWithId:hack[@"id"]
+                                                   title:hack[@"title"]
+                                             description:hack[@"description"]
+                                            technologies:hack[@"technologies"]
+                                                   video:hack[@"video"]
+                                               thumbnail:[NSURL URLWithString:hack[@"thumbnail"]]
+                                                   owner:hack[@"owner"]
+                                               ownerName:hack[@"ownerName"]
+                                           ownerUsername:hack[@"ownerUsername"]
+                                             ownerAvatar:[NSURL URLWithString:hack[@"ownerGravatar"]]
+                                                   likes:hack[@"likeCount"]
+                                                comments:hack[@"commentCount"]
+                                               isYouTube:[hack[@"isYoutube"] boolValue]
+                                               isEncoded:[hack[@"isEncoded"] boolValue]
+                                               createdAt: [dateFormatter dateFromString:hack[@"createdAt"]]
+                                                    team:hack[@"team"]];
+            [hacks addObject:theHack];
+        }
+        
+        block(hacks);
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", [error localizedDescription]);
+    }];
+}
 @end

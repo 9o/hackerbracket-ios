@@ -16,6 +16,7 @@
            email:(NSString *)email
            admin:(BOOL)admin
              pro:(BOOL)pro
+     isFollowing:(BOOL)isFollowing
        followers:(NSNumber *)followers
        following:(NSNumber *)following
             name:(NSString *)name
@@ -38,6 +39,7 @@
         self.userId = userId;
         self.email = email;
         self.admin = admin;
+        self.isFollowing = isFollowing;
         self.followers = followers;
         self.following = following;
         self.name = name;
@@ -73,6 +75,7 @@
                                email:user[@"email"]
                                admin:[user[@"admin"] boolValue]
                                pro:[user[@"pro"] boolValue]
+                               isFollowing:[responseObject[@"isFollowed"] boolValue]
                                followers:user[@"followers"]
                                following:user[@"following"]
                                name:user[@"name"]
@@ -125,6 +128,7 @@
                            email:user[@"email"]
                            admin:[user[@"admin"] boolValue]
                            pro:[user[@"pro"] boolValue]
+                           isFollowing:[responseObject[@"isFollowed"] boolValue]
                            followers:user[@"followers"]
                            following:user[@"following"]
                            name:user[@"name"]
@@ -172,6 +176,10 @@
         NSLog(@"Error: %@", [error localizedDescription]);
         block(false);
     }];
+}
+
++ (BOOL)isCurrentUser:(HBUser *)user {
+    return NO;
 }
 
 #pragma mark - Update User

@@ -59,7 +59,7 @@ typedef enum {
  Returns HBHack object by its id.
  */
 + (void)getHackById:(NSString *)hackId block:(void(^)(HBHack *hack))block;
-
++ (void)getHacksForUser:(NSString *)user withBlock:(void (^)(NSArray *))block;
 /*!
  Returns all hacks.
  */
