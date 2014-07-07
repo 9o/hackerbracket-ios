@@ -11,8 +11,10 @@
 #import "HBFollowTableViewController.h"
 #import "HBBioTableViewCell.h"
 #import "HBDarkTableViewCell.h"
+#import "HBHackViewController.h"
 #import "HBLightTableViewCell.h"
 #import "HBHackTableViewCell.h"
+#import "HBWebViewController.h"
 #import <QuartzCore/QuartzCore.h>
 
 @interface HBProfileViewController ()
@@ -42,6 +44,7 @@
                 self.hacks = hacks;
                 [self.tableView reloadData];
             }];
+            self.title = self.user.name;
             [self.tableView reloadData];
         }];
 }
@@ -62,32 +65,31 @@
         return cell;
 
     } else if ([indexPath section] == 1) {
-        HBDarkTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"darkCell" forIndexPath:indexPath];
+        HBDarkTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"followCell" forIndexPath:indexPath];
         UIView *selectionColor = [[UIView alloc] init];
         selectionColor.backgroundColor = [UIColor colorWithRed:(90.0/255.0) green:(184.0/255.0) blue:(77.0/255.0) alpha:1];
-        
-        // If Follow status cell
-        BOOL isNotCurrentUser = ![HBUser isCurrentUser:self.user];
-        // Converts cell existance to int, a hacky way of doing things
-        int followCell = (isNotCurrentUser ? 1 : 0);
-        int linkedinCell = (self.user.linkedin ? 1 : 0);
-        int githubCell = (self.user.github ? 1 : 0);
-        if (isNotCurrentUser && [indexPath row] == 0) {
             cell.infoImageView.image = [UIImage imageNamed:@"Settings"];
             if (self.user.isFollowing) {
                 cell.infoLabel.text = @"Following";
                 [cell.contentView setBackgroundColor:[UIColor colorWithRed:(90.0/255.0) green:(184.0/255.0) blue:(77.0/255.0) alpha:0.8]];
-            } else {
-                cell.infoLabel.text = @"You are not following";
-            [cell.contentView setBackgroundColor: [UIColor colorWithRed:(39.0/255.0) green:(39.0/255.0) blue:(39.0/255.0) alpha:0.8]];
             }
-        } else if (self.user.linkedin && [indexPath row] == followCell) {
+         cell.selectedBackgroundView = selectionColor;
+        return cell;
+    } else if ([indexPath section] == 2) {
+        HBDarkTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"darkCell" forIndexPath:indexPath];
+        UIView *selectionColor = [[UIView alloc] init];
+        selectionColor.backgroundColor = [UIColor colorWithRed:(90.0/255.0) green:(184.0/255.0) blue:(77.0/255.0) alpha:1];
+        
+        // Converts cell existance to int, a hacky way of doing things
+        int linkedinCell = (self.user.linkedin ? 1 : 0);
+        int githubCell = (self.user.github ? 1 : 0);
+        if (self.user.linkedin && [indexPath row] == 0) {
                 cell.infoImageView.image = [UIImage imageNamed:@"LinkedIn"];
                 cell.infoLabel.text = self.user.linkedin;
-            } else if (self.user.github && [indexPath row] == followCell + linkedinCell) {
+            } else if (self.user.github && [indexPath row] == linkedinCell) {
                 cell.infoImageView.image = [UIImage imageNamed:@"GitHub"];
                 cell.infoLabel.text = self.user.github;
-            } else if (self.user.personalSite && [indexPath row] == followCell + linkedinCell + githubCell) {
+            } else if (self.user.personalSite && [indexPath row] == linkedinCell + githubCell) {
                 cell.infoImageView.image = [UIImage imageNamed:@"Personal Site"];
                 cell.infoLabel.text = self.user.personalSite;
             } else {
@@ -96,7 +98,7 @@
             }
         cell.selectedBackgroundView = selectionColor;
         return cell;
-    } else if ([indexPath section] == 2) {
+    } else if ([indexPath section] == 3) {
         // White cells
         HBLightTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"lightCell" forIndexPath:indexPath];
         if ([indexPath row] == 0) {
@@ -122,7 +124,7 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([indexPath section] == 0) {
         return 198;
-    } else if ([indexPath section] == 3){
+    } else if ([indexPath section] == 4){
         return 207;
     } else {
         return 35;
@@ -132,6 +134,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     [cell setSelected:NO animated:YES];
+
     return;
 }
 
@@ -139,6 +142,8 @@
     if (section == 0) {
         return 1;
     } else if (section == 1) {
+        return (![HBUser isCurrentUser:self.user] ? 1 : 0);
+    } else if (section == 2) {
         NSInteger numDarkCells = 0;
         if (![HBUser isCurrentUser:self.user]) {
             numDarkCells++;
@@ -156,7 +161,7 @@
             numDarkCells++;
         }
         return numDarkCells;
-    } else if (section == 2) {
+    } else if (section == 3) {
         return 2;
     } else {
         return [self.hacks count];
@@ -164,7 +169,7 @@
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 4;
+    return 5;
 }
 
 - (void)didReceiveMemoryWarning
@@ -174,14 +179,36 @@
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([[segue identifier]  isEqualToString:@"following"]) {
+    if ([[segue identifier]  isEqualToString:@"showFollowers"]) {
         HBFollowTableViewController *vc = [segue destinationViewController];
-        vc.showFollowing = TRUE;
+        if ([[self.tableView indexPathForSelectedRow] row] == 1) {
+            vc.showFollowing = TRUE;
+        } else {
+            vc.showFollowing = FALSE;
+        }
         vc.user = self.user.userId;
-    } else if ([[segue identifier]  isEqualToString:@"followers"]) {
-        HBFollowTableViewController *vc = [segue destinationViewController];
-        vc.showFollowing = FALSE;
-        vc.user = self.user.userId;
+    } else if ([[segue identifier]  isEqualToString:@"showBrowser"]) {
+        HBWebViewController *vc = [segue destinationViewController];
+        int linkedinCell = (self.user.linkedin ? 1 : 0);
+        int githubCell = (self.user.github ? 1 : 0);
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        if (self.user.linkedin && [indexPath row] == 0) {
+            vc.url = [NSURL URLWithString:self.user.linkedin];
+        } else if (self.user.github && [indexPath row] == linkedinCell) {
+            vc.url = [NSURL URLWithString:[NSString stringWithFormat:@"https://github.com/%@",self.user.github]];
+        } else if (self.user.personalSite && [indexPath row] == linkedinCell + githubCell) {
+            if ([self.user.personalSite containsString:@"http"]
+                ) {
+                vc.url = [NSURL URLWithString:self.user.personalSite];
+            } else {
+                vc.url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@",self.user.personalSite]];
+            }
+        } else {
+            vc.url = [NSURL URLWithString:[NSString stringWithFormat:@"https://twitter.com/%@",self.user.twitter]];
+        }
+    } else if ([[segue identifier]  isEqualToString:@"showHack"]) {
+        HBHackViewController *vc = [segue destinationViewController];
+        vc.hack = [self.hacks objectAtIndex:[[self.tableView indexPathForSelectedRow] row]];
     }
 }
 

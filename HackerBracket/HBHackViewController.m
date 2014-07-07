@@ -27,6 +27,7 @@
     [HBComment geCommentsForHack:self.hack.hackId block:^(NSArray *comments) {
         self.comments = comments;
         NSLog(@"%@",comments);
+        self.title = self.hack.title;
         [self.tableView reloadData];
     }];
 }

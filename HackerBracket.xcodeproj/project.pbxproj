@@ -19,6 +19,7 @@
 		8BA4EC8819636B3E002FBD81 /* HBUserTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BA4EC8719636B3E002FBD81 /* HBUserTableViewCell.m */; };
 		8BA4EC8B19636B4E002FBD81 /* HBLikesTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BA4EC8A19636B4E002FBD81 /* HBLikesTableViewCell.m */; };
 		8BC8A251196A89180058E6BE /* images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 949BFAAE19423DA6004B94A6 /* images.xcassets */; };
+		8BC8A255196A8B920058E6BE /* HBWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC8A254196A8B920058E6BE /* HBWebViewController.m */; };
 		8BE29AC91965466800502666 /* HBFollowTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BE29AC81965466800502666 /* HBFollowTableViewController.m */; };
 		8BE29ACC196546DF00502666 /* HBFollowTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BE29ACB196546DF00502666 /* HBFollowTableViewCell.m */; };
 		8BE29ACF19666A3900502666 /* HBFollow.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BE29ACE19666A3900502666 /* HBFollow.m */; };
@@ -130,6 +131,8 @@
 		8BA4EC8719636B3E002FBD81 /* HBUserTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBUserTableViewCell.m; sourceTree = "<group>"; };
 		8BA4EC8919636B4E002FBD81 /* HBLikesTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBLikesTableViewCell.h; sourceTree = "<group>"; };
 		8BA4EC8A19636B4E002FBD81 /* HBLikesTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBLikesTableViewCell.m; sourceTree = "<group>"; };
+		8BC8A253196A8B920058E6BE /* HBWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBWebViewController.h; sourceTree = "<group>"; };
+		8BC8A254196A8B920058E6BE /* HBWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBWebViewController.m; sourceTree = "<group>"; };
 		8BE29AC71965466800502666 /* HBFollowTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBFollowTableViewController.h; sourceTree = "<group>"; };
 		8BE29AC81965466800502666 /* HBFollowTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBFollowTableViewController.m; sourceTree = "<group>"; };
 		8BE29ACA196546DF00502666 /* HBFollowTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBFollowTableViewCell.h; sourceTree = "<group>"; };
@@ -311,6 +314,15 @@
 			name = Cells;
 			sourceTree = "<group>";
 		};
+		8BC8A252196A8B7B0058E6BE /* Browser */ = {
+			isa = PBXGroup;
+			children = (
+				8BC8A253196A8B920058E6BE /* HBWebViewController.h */,
+				8BC8A254196A8B920058E6BE /* HBWebViewController.m */,
+			);
+			name = Browser;
+			sourceTree = "<group>";
+		};
 		8BE29AD019666A9B00502666 /* Follow */ = {
 			isa = PBXGroup;
 			children = (
@@ -332,6 +344,7 @@
 		8BEE3BEC1964C0C30057B7D0 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				8BC8A252196A8B7B0058E6BE /* Browser */,
 				8BEE3BF51964C2F80057B7D0 /* Follows */,
 				8BEE3BF41964C2E80057B7D0 /* Edit */,
 				8BEE3BF31964C2DE0057B7D0 /* Profile */,
@@ -785,6 +798,7 @@
 				8BA4EC8519636B1C002FBD81 /* HBTitleTableViewCell.m in Sources */,
 				94546A331947CE18008F8743 /* UIButton+WebCache.m in Sources */,
 				947996F01944E4E40040C71F /* AFSecurityPolicy.m in Sources */,
+				8BC8A255196A8B920058E6BE /* HBWebViewController.m in Sources */,
 				94546A2A1947CE18008F8743 /* MKAnnotationView+WebCache.m in Sources */,
 				94546A301947CE18008F8743 /* SDWebImageDownloaderOperation.m in Sources */,
 				949BFACD19423E01004B94A6 /* HBUser.m in Sources */,
