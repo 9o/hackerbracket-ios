@@ -30,11 +30,6 @@ UIImagePickerController *imagePickerController;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    self.descriptionTextView.layer.borderColor = [[[UIColor grayColor] colorWithAlphaComponent:0.5] CGColor];
-    [self.descriptionTextView.layer setBorderWidth:0.5];
-    self.descriptionTextView.layer.cornerRadius = 5;
-    self.descriptionTextView.clipsToBounds = YES;
 }
 
 - (IBAction)submitHack:(id)sender {
@@ -68,7 +63,7 @@ UIImagePickerController *imagePickerController;
     switch (segment.selectedSegmentIndex) {
         case 0: {
             UITextField *field = [[UITextField alloc] initWithFrame:self.videoInputView.bounds];
-            field.borderStyle = UITextBorderStyleRoundedRect;
+            //field.borderStyle = UITextBorderStyleRoundedRect;
             field.delegate = self;
             field.placeholder = @"Video URL (e.g. http://youtube.com/watch?v=awesome";
             field.font = [UIFont systemFontOfSize:14];

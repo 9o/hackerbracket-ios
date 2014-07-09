@@ -127,7 +127,7 @@
     } else if ([indexPath section] == 4){
         return 207;
     } else {
-        return 35;
+        return 40;
     }
 }
 
@@ -145,9 +145,6 @@
         return (![HBUser isCurrentUser:self.user] ? 1 : 0);
     } else if (section == 2) {
         NSInteger numDarkCells = 0;
-        if (![HBUser isCurrentUser:self.user]) {
-            numDarkCells++;
-        }
         if ([self.user.github length] > 0) {
             numDarkCells++;
         }
@@ -197,11 +194,11 @@
         } else if (self.user.github && [indexPath row] == linkedinCell) {
             vc.url = [NSURL URLWithString:[NSString stringWithFormat:@"https://github.com/%@",self.user.github]];
         } else if (self.user.personalSite && [indexPath row] == linkedinCell + githubCell) {
-            if ([self.user.personalSite containsString:@"http"]
-                ) {
-                vc.url = [NSURL URLWithString:self.user.personalSite];
-            } else {
+            NSRange range = [self.user.personalSite rangeOfString:@"http" options:NSCaseInsensitiveSearch];
+            if (range.location == NSNotFound) {
                 vc.url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@",self.user.personalSite]];
+            } else {
+                vc.url = [NSURL URLWithString:self.user.personalSite];
             }
         } else {
             vc.url = [NSURL URLWithString:[NSString stringWithFormat:@"https://twitter.com/%@",self.user.twitter]];
