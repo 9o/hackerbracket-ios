@@ -114,7 +114,7 @@
         HBHackTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"hackCell" forIndexPath:indexPath];
         NSInteger row = [indexPath row];
         HBHack *hack = self.hacks[row];
-        [cell.previewImageView setImageWithURL:hack.thumbnail placeholderImage:[UIImage imageNamed:@"Loading"]];
+        [cell.previewImageView setImageWithURL:hack.thumbnail placeholderImage:[UIImage imageNamed:@"Loading Thumbnail"]];
         cell.titleLabel.text = hack.title;
         cell.likesLabel.text = [NSString stringWithFormat:@"%@",hack.likes];
         cell.commentsLabel.text = [NSString stringWithFormat:@"%@",hack.comments];

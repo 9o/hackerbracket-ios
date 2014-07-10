@@ -18,11 +18,10 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView appearanceType="aqua" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="207" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="3hR-FX-8wM">
+                            <tableView appearanceType="aqua" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="207" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="3hR-FX-8wM">
                                 <rect key="frame" x="0.0" y="39" width="320" height="465"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.1960784314" green="0.1960784314" blue="0.1960784314" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="separatorColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                                <color key="sectionIndexBackgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell appearanceType="aqua" contentMode="scaleToFill" selectionStyle="gray" indentationWidth="10" reuseIdentifier="CellId" rowHeight="207" id="73V-cf-oFJ" customClass="HBHackCell">
                                         <rect key="frame" x="0.0" y="22" width="320" height="207"/>
@@ -123,6 +122,10 @@
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="3hR-FX-8wM" firstAttribute="top" secondItem="zFr-ug-HHW" secondAttribute="bottom" constant="39" id="Ld7-O5-XBg"/>
+                            <constraint firstItem="Adn-dg-9dh" firstAttribute="top" secondItem="3hR-FX-8wM" secondAttribute="bottom" id="ds8-MV-wll"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="HackerBracket" id="VlE-l0-Fyu">
                         <barButtonItem key="leftBarButtonItem" image="profile" id="efe-Sh-t40">
@@ -256,13 +259,13 @@
                         <viewControllerLayoutGuide type="bottom" id="keM-Vg-9N8"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="ZAt-L2-QJV">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9Fz-14-MYV">
-                                <rect key="frame" x="77" y="12" width="87" height="71"/>
+                                <rect key="frame" x="77" y="15" width="87" height="71"/>
                             </imageView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="100" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="qzE-Xr-nuW">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="100" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="qzE-Xr-nuW">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                                 <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="separatorColor" red="0.19607843137254902" green="0.19607843137254902" blue="0.19607843137254902" alpha="1" colorSpace="calibratedRGB"/>
@@ -435,6 +438,10 @@
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="qzE-Xr-nuW" firstAttribute="top" secondItem="7lX-EV-ytj" secondAttribute="bottom" id="NRC-z2-0Jg"/>
+                            <constraint firstItem="keM-Vg-9N8" firstAttribute="top" secondItem="qzE-Xr-nuW" secondAttribute="bottom" id="ipz-vW-jXN"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Isaiah Turner" id="xbt-xC-PDk">
                         <barButtonItem key="rightBarButtonItem" systemItem="edit" id="lOY-a2-4xy">
@@ -458,7 +465,7 @@
             <objects>
                 <tableViewController id="gl5-cp-tt7" customClass="HBFollowTableViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="59" sectionHeaderHeight="22" sectionFooterHeight="22" id="hvP-D8-U6y">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -555,7 +562,7 @@
             <objects>
                 <tableViewController id="OQe-NA-iyZ" customClass="HBProfileEditTableViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="9cO-Hb-VUl">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -606,11 +613,11 @@
                         <viewControllerLayoutGuide type="bottom" id="E4n-zG-n0h"/>
                     </layoutGuides>
                     <view key="view" opaque="NO" contentMode="scaleToFill" id="zaI-EF-re8">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="48" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="FbP-Kr-b50">
-                                <rect key="frame" x="0.0" y="177" width="320" height="327"/>
+                                <rect key="frame" x="0.0" y="352" width="320" height="327"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="title" rowHeight="68" id="lOQ-nw-n5R" customClass="HBTitleTableViewCell">
