@@ -41,4 +41,24 @@
         NSLog(@"Error: %@", [error localizedDescription]);
     }];
 }
+
++ (void)postComment:(NSString *)commentText hack:(HBHack *)hack block:(void(^__strong)(HBComment *comment))block {
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    [manager POST:[NSString stringWithFormat:@"%@/hacks/%@/comments",API_BASE_URL,hack.hackId] parameters:@{
+                                                                                                            
+                                                                                    @"body": commentText
+                                                                                                            }success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+                                                                                                                NSDictionary *comment = responseObject[@"comment"];
+                                                                                                                NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                                                                                                                [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.ZZZ'z'"];
+                                                                                                                [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
+                                                                                                                    HBComment *theComment = [[HBComment alloc] initWithBody:comment[@"body"] createdAt:[NSDate alloc] owner:comment[@"owner"] ownerGravatar:[NSURL URLWithString:comment[@"ownerGravatar"]] ownerName:comment[@"ownerName"] ownerUsername:comment[@"ownerUsername"]];
+                                                                                                                block(theComment);
+
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", [error localizedDescription]);
+    }];
+}
+
 @end

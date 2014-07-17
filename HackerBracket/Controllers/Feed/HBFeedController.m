@@ -125,7 +125,7 @@ BOOL hasLoadedData = FALSE;
 }
 
 - (void)viewDidLoad {
-    type = Recent;
+    type = Following;
     [super viewDidLoad];
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:144.0/255.0 green:204.0/255.0 blue:92.0/255.0 alpha:1.0];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];

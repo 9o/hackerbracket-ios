@@ -48,7 +48,17 @@
         [keychainItem setObject:self.passwordTextField.text forKey:(__bridge id)(kSecValueData)];
         [keychainItem setObject:self.emailTextField.text forKey:(__bridge id)(kSecAttrAccount)];
         
-        [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"Feed"] animated:YES completion:nil];
+        [self performSegueWithIdentifier:@"getStarted" sender:self];
+        if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
+        {
+            [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge) categories:nil]];
+            [[UIApplication sharedApplication] registerForRemoteNotifications];
+        }
+        else
+        {
+            [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
+             (UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert)];
+        }
     }];
 }
 

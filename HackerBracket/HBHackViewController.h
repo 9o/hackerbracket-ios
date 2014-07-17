@@ -10,12 +10,17 @@
 #import "HBHack.h"
 #import <MediaPlayer/MPMoviePlayerController.h>
 
-@interface HBHackViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface HBHackViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
 
 @property (nonatomic, strong) HBHack *hack;
-@property (weak, nonatomic) IBOutlet UIView *videoView;
+@property (weak, nonatomic) IBOutlet UIView *commentView;
+
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) UIImageView *hackImageView;
 @property (strong, nonatomic) NSArray *comments;
+@property (assign, nonatomic) CGRect tableRect;
+@property (assign, nonatomic) CGRect commentRect;
+@property (assign, nonatomic) BOOL keyboardVisable;
+@property (weak, nonatomic) IBOutlet UITextField *commentTextField;
 
 @end

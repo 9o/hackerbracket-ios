@@ -18,4 +18,5 @@
 @property (nonatomic, copy) NSString *ownerUsername;
 -(id)initWithBody:(NSString *)body createdAt:(NSDate *)createdAt owner:(NSString *)owner ownerGravatar:(NSURL *)gravatar ownerName:(NSString *)ownerName ownerUsername:(NSString *)ownerUsername;
 + (void)geCommentsForHack:(NSString *)hackId block:(void(^)(NSArray *comments))block;
++ (void)postComment:(NSString *)comment hack:(HBHack *)hack block:(void(^__strong)(HBComment *comment))comment;
 @end

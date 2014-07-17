@@ -58,7 +58,7 @@
     NSLog(@"%u",hackType);
     switch(hackType){
         case Trending:{
-            hackTypeString = @"trending";
+            hackTypeString = @"popular";
             break;
         }
         case Following:{
@@ -70,7 +70,10 @@
             break;
         }
     }
-    [manager GET:[NSString stringWithFormat:@"%@/hacks/%@/%i",API_BASE_URL,hackTypeString,skip] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    NSNumber *skipNum = [NSNumber numberWithInt:skip];
+    [manager GET:[NSString stringWithFormat:@"%@/hacks/%@",API_BASE_URL,hackTypeString] parameters:@{
+                                                                                                             @"id":skipNum
+                                                                                                             }success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSMutableArray *hacks = [NSMutableArray array];
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.ZZZ'z'"];
