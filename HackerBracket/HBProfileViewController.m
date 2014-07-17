@@ -85,7 +85,7 @@
     } else if ([indexPath section] == 2) {
         HBDarkTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"darkCell" forIndexPath:indexPath];
         UIView *selectionColor = [[UIView alloc] init];
-        selectionColor.backgroundColor = [UIColor colorWithRed:(90.0/255.0) green:(184.0/255.0) blue:(77.0/255.0) alpha:1];
+        selectionColor.backgroundColor = [UIColor colorWithRed:(90.0/255.0) green:(184.0/255.0) blue:(77.0/255.0) alpha:0.8];
         
         // Converts cell existance to int, a hacky way of doing things
         int linkedinCell = (self.user.linkedin ? 1 : 0);

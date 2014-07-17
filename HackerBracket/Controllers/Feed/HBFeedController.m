@@ -8,7 +8,6 @@
 
 #import "HBFeedController.h"
 #import "HBHackViewController.h"
-#import "UIButton+AFNetworking.h"
 
 @implementation HBFeedController
 BOOL hasLoadedData = FALSE;
@@ -146,7 +145,10 @@ BOOL hasLoadedData = FALSE;
     [self.refreshControl addTarget:self action:@selector(refreshHacks) forControlEvents:UIControlEventValueChanged];
     id block = ^(NSString *username, NSString *name, NSURL *gravatar) {
         UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake( 0, 0, 25, 25)];
-        [button setImageForState:UIControlStateNormal withURL:gravatar placeholderImage:[UIImage imageNamed:@"profile"]];
+        if (gravatar == NULL || gravatar == nil ) [button setImage:[UIImage imageNamed:@"profile"] forState:UIControlStateNormal];
+        else
+            NSLog(@"The next line crashes shit and I have no idea why.");
+       // [button setImageForState:UIControlStateNormal withURL:[NSURL URLWithString:@"http://gravatar.com/avatar/c7606485562f1907c5565adf7bd76d2c?d=mm"]];
         [button.layer setBorderColor:[[UIColor whiteColor] CGColor]];
         button.layer.cornerRadius = button.frame.size.width / 2;
         button.layer.masksToBounds = YES;
@@ -155,7 +157,49 @@ BOOL hasLoadedData = FALSE;
         
         self.navigationItem.leftBarButtonItem = item;
     };
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 200, 60.0)];
+    [self.navigationController.navigationBar.topItem setTitleView
+     :view];
+    view = self.navigationController.navigationBar.topItem.titleView;
+    view.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Light Logo"]];
+    imageView.contentMode = UIViewContentModeScaleAspectFit;
+    [view addSubview:imageView];
+    
+    imageView.frame = CGRectMake(imageView.frame.origin.x, imageView.frame.origin.y - 10, 175, 25);
+    imageView.center = view.center;
+    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, -10, view.frame.size.width, view.frame.size.height)];
+    [button setTitle:@"▾" forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [button setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
+    [button setContentVerticalAlignment:UIControlContentVerticalAlignmentBottom];
+    [button addTarget:self action:@selector(dragShowNotifications:withEvent:) forControlEvents:UIControlEventTouchDragOutside];
+    [button addTarget:self action:@selector(hideNotificationsIfShown) forControlEvents:UIControlEventTouchUpInside];
+    [button addTarget:self action:@selector(showNotifications) forControlEvents:UIControlEventTouchUpOutside];
+
+
+    [view addSubview:button];
     [HBUser currentUserMeta:block updatedMeta:block];
+}
+
+- (void)dragShowNotifications:(UIButton *)sender withEvent:(UIEvent *)event {
+    self.notificationsView.hidden = NO;
+    UITouch *touch = [[event allTouches] anyObject];
+    NSLog(@"touchInfo:%@", NSStringFromCGPoint([touch locationInView:self.view]));
+    NSLog(@"Drag show notifications");
+}
+
+- (void)showNotifications {
+    self.notificationsView.hidden = NO;
+    UITableViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"notificationsVC"];
+    [self.navigationController pushViewController:vc animated:YES];
+    NSLog(@"Show notifications");
+}
+
+- (void)hideNotificationsIfShown {
+    self.notificationsView.hidden = YES;
+    NSLog(@"Hide notifications if show");
 }
 
 - (void)showProfile {

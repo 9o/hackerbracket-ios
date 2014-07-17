@@ -76,6 +76,8 @@
     
     HBUser *user = [self.people objectAtIndex:[indexPath row]];
     [cell.profileImage setImageWithURL:user.gravatar placeholderImage:[UIImage imageNamed:@"profile"]];
+    cell.profileImage.layer.masksToBounds = YES;
+    cell.profileImage.layer.cornerRadius = cell.profileImage.frame.size.height / 2;
      cell.usernameLabel.text = user.username;
      cell.nameLabel.text = user.name;
      

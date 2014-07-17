@@ -8,10 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import "AFNetworking.h"
+#import "UIKit+AFNetworking.h"
 
 #import "HBUser.h"
 #import "HBHack.h"
 #import "HBFollow.h"
+#import "HBNotification.h"
 
 #define API_BASE_URL    @"http://hackerbracket-api.herokuapp.com/api"
 @interface HackerBracket : NSObject

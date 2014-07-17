@@ -22,6 +22,8 @@
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) IBOutlet UIView *indicatorView;
+@property (nonatomic, strong) UIView *notificationsView;
+
 @property (nonatomic, assign) int skip;
 @property (nonatomic, assign) BOOL isLoading;
 

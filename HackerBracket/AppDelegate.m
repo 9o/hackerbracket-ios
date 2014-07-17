@@ -10,6 +10,7 @@
 #import <AudioToolbox/AudioToolbox.h>
 #import "AFNetworking.h"
 #import "HackerBracket.h"
+#import <CRToast/CRToast.h>
 
 @implementation AppDelegate
             
@@ -165,6 +166,21 @@
     } else if ([alert isKindOfClass:[NSDictionary class]]) {
         message = [alert objectForKey:@"body"];
     }
+    NSDictionary *options = @{
+                               kCRToastTextKey : @"Notification",
+                               kCRToastTextAlignmentKey : @(NSTextAlignmentCenter),
+                               kCRToastBackgroundColorKey : [UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1],
+                               kCRToastAnimationInTypeKey : @(CRToastAnimationTypeGravity),
+                               kCRToastAnimationOutTypeKey : @(CRToastAnimationTypeGravity),
+                               kCRToastAnimationInDirectionKey : @(CRToastAnimationDirectionBottom),
+                               kCRToastAnimationOutDirectionKey : @(CRToastAnimationDirectionTop),
+                               kCRToastSubtitleTextKey: message,
+                               kCRToastNotificationTypeKey: @(CRToastTypeNavigationBar)
+                               };
+    [CRToastManager showNotificationWithOptions:options
+                                completionBlock:^{
+                                    NSLog(@"Completed");
+                                }];
 #endif
 }
 

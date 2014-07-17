@@ -193,9 +193,13 @@
     NSString *username = [[[NSUserDefaults standardUserDefaults] objectForKey:@"currentUser"] objectForKey:@"username"];
     NSString *name = [[[NSUserDefaults standardUserDefaults] objectForKey:@"currentUser"] objectForKey:@"name"];
     NSURL *gravatar = [NSURL URLWithString:[[[NSUserDefaults standardUserDefaults] objectForKey:@"currentUser"] objectForKey:@"gravatar"]];
+    NSLog(@"found");
+    NSLog(@"%@",[[[NSUserDefaults standardUserDefaults] objectForKey:@"currentUser"] objectForKey:@"gravatar"]);
     current(username, name,gravatar);
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     [manager GET:[NSString stringWithFormat:@"%@/session",API_BASE_URL] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"found");
+        NSLog(@"%@",[responseObject objectForKey:@"gravatar"]);
         updated([responseObject objectForKey:@"username"],[responseObject objectForKey:@"name"],[NSURL URLWithString:[responseObject objectForKey:@"gravatar"]]);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", [error localizedDescription]);
