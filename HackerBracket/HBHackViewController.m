@@ -36,9 +36,11 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
+}
+
+-(void)viewDidAppear:(BOOL)animated {
     self.commentRect = self.commentView.frame;
     self.tableRect = self.tableView.frame;
-
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField

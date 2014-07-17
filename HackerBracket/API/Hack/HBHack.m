@@ -72,7 +72,7 @@
     }
     NSNumber *skipNum = [NSNumber numberWithInt:skip];
     [manager GET:[NSString stringWithFormat:@"%@/hacks/%@",API_BASE_URL,hackTypeString] parameters:@{
-                                                                                                             @"id":skipNum
+                                                                                                             @"skip":skipNum
                                                                                                              }success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSMutableArray *hacks = [NSMutableArray array];
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];

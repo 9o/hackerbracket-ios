@@ -40,6 +40,8 @@ BOOL hasLoadedData = FALSE;
 }
 
 - (IBAction)showFollowing:(id)sender {
+    self.skip = 0;
+    [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
     type = Following;
     [self refreshHacks];
     [UIView animateWithDuration:0.2 animations:^{
@@ -48,6 +50,8 @@ BOOL hasLoadedData = FALSE;
 }
 
 - (IBAction)showTrending:(id)sender {
+    self.skip = 0;
+    [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
     type = Trending;
     [self refreshHacks];
     [UIView animateWithDuration:0.2 animations:^{
@@ -56,6 +60,8 @@ BOOL hasLoadedData = FALSE;
 }
 
 - (IBAction)showRecent:(id)sender {
+    self.skip = 0;
+    [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
     type = Recent;
     [self refreshHacks];
     [UIView animateWithDuration:0.2 animations:^{

@@ -71,7 +71,7 @@
             cell.infoImageView.image = [UIImage imageNamed:@"Settings"];
             if (self.user.isFollowing) {
                 cell.infoLabel.text = @"Following";
-                [cell.contentView setBackgroundColor:[UIColor colorWithRed:(90.0/255.0) green:(184.0/255.0) blue:(77.0/255.0) alpha:0.8]];
+                [cell setBackgroundColor:[UIColor colorWithRed:(90.0/255.0) green:(184.0/255.0) blue:(77.0/255.0) alpha:0.8]];
             }
          cell.selectedBackgroundView = selectionColor;
         return cell;
