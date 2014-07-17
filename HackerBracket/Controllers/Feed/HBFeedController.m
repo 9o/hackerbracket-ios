@@ -8,6 +8,7 @@
 
 #import "HBFeedController.h"
 #import "HBHackViewController.h"
+#import "UIButton+AFNetworking.h"
 
 @implementation HBFeedController
 BOOL hasLoadedData = FALSE;
@@ -143,6 +144,23 @@ BOOL hasLoadedData = FALSE;
     [self.refreshControl setTintColor:[UIColor colorWithRed:90/255.0f green:184/255.0f blue:77/255.0f alpha:1.0f]];
     [self.tableView addSubview:self.refreshControl];
     [self.refreshControl addTarget:self action:@selector(refreshHacks) forControlEvents:UIControlEventValueChanged];
+    id block = ^(NSString *username, NSString *name, NSURL *gravatar) {
+        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake( 0, 0, 25, 25)];
+        [button setImageForState:UIControlStateNormal withURL:gravatar placeholderImage:[UIImage imageNamed:@"profile"]];
+        [button.layer setBorderColor:[[UIColor whiteColor] CGColor]];
+        button.layer.cornerRadius = button.frame.size.width / 2;
+        button.layer.masksToBounds = YES;
+        [button addTarget:self action:@selector(showProfile) forControlEvents:UIControlEventTouchUpInside];
+        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:button];
+        
+        self.navigationItem.leftBarButtonItem = item;
+    };
+    [HBUser currentUserMeta:block updatedMeta:block];
+}
+
+- (void)showProfile {
+    NSLog(@"shown");
+    [self performSegueWithIdentifier:@"viewMyProfile" sender:self];
 }
 
 - (void)didReceiveMemoryWarning {

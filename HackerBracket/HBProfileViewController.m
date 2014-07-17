@@ -36,7 +36,14 @@
 {
     [super viewDidLoad];
     if (self.username == nil) {
-        self.username = @"i"; // current user
+        id block = ^(NSString *username, NSString *name, NSURL *gravatar) {
+            self.username = username;
+            self.user.username = username;
+            self.user.name = name;
+            self.user.gravatar = gravatar;
+            [self.tableView reloadData];
+        };
+        [HBUser currentUserMeta:block updatedMeta:block];
     }
         [HBUser getUser:self.username block:^(HBUser *user){
             self.user = user;

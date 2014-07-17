@@ -14,6 +14,7 @@
 		8B5EFC4F196A07FF001E3D57 /* HBDarkTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B5EFC4E196A07FF001E3D57 /* HBDarkTableViewCell.m */; };
 		8B5EFC52196A7DEF001E3D57 /* HBLightTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B5EFC51196A7DEE001E3D57 /* HBLightTableViewCell.m */; };
 		8B5EFC55196A8190001E3D57 /* HBHackTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B5EFC54196A8190001E3D57 /* HBHackTableViewCell.m */; };
+		8B63BCD6197835550062680C /* UIButton+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B63BCD5197835550062680C /* UIButton+AFNetworking.m */; };
 		8BA4EC7B19636AD8002FBD81 /* HBHackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BA4EC7A19636AD8002FBD81 /* HBHackViewController.m */; };
 		8BA4EC8219636B07002FBD81 /* HBCommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BA4EC8119636B07002FBD81 /* HBCommentTableViewCell.m */; };
 		8BA4EC8519636B1C002FBD81 /* HBTitleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BA4EC8419636B1C002FBD81 /* HBTitleTableViewCell.m */; };
@@ -125,6 +126,8 @@
 		8B5EFC51196A7DEE001E3D57 /* HBLightTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBLightTableViewCell.m; sourceTree = "<group>"; };
 		8B5EFC53196A8190001E3D57 /* HBHackTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBHackTableViewCell.h; sourceTree = "<group>"; };
 		8B5EFC54196A8190001E3D57 /* HBHackTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBHackTableViewCell.m; sourceTree = "<group>"; };
+		8B63BCD4197835550062680C /* UIButton+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+AFNetworking.h"; sourceTree = "<group>"; };
+		8B63BCD5197835550062680C /* UIButton+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+AFNetworking.m"; sourceTree = "<group>"; };
 		8BA4EC7919636AD8002FBD81 /* HBHackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBHackViewController.h; sourceTree = "<group>"; };
 		8BA4EC7A19636AD8002FBD81 /* HBHackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBHackViewController.m; sourceTree = "<group>"; };
 		8BA4EC8019636B07002FBD81 /* HBCommentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBCommentTableViewCell.h; sourceTree = "<group>"; };
@@ -510,6 +513,8 @@
 				947996EB1944E4E40040C71F /* AFURLSessionManager.m */,
 				8B032AC419649AA900320868 /* UIImageView+AFNetworking.h */,
 				8B032AC519649AA900320868 /* UIImageView+AFNetworking.m */,
+				8B63BCD4197835550062680C /* UIButton+AFNetworking.h */,
+				8B63BCD5197835550062680C /* UIButton+AFNetworking.m */,
 			);
 			name = AFNetworking;
 			path = Libraries/AFNetworking;
@@ -791,6 +796,7 @@
 				94546A2D1947CE18008F8743 /* SDWebImageCompat.m in Sources */,
 				8B5E761419634E8900BB1986 /* HBRecordViewController.m in Sources */,
 				9479968A1944B2540040C71F /* Reachability.m in Sources */,
+				8B63BCD6197835550062680C /* UIButton+AFNetworking.m in Sources */,
 				8BA4EC8819636B3E002FBD81 /* HBUserTableViewCell.m in Sources */,
 				8BE29ACF19666A3900502666 /* HBFollow.m in Sources */,
 				947996EE1944E4E40040C71F /* AFHTTPSessionManager.m in Sources */,

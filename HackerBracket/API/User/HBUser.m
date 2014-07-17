@@ -94,6 +94,12 @@
                                attended:user[@"attended"]];
 
             block(theUser);
+            [[NSUserDefaults standardUserDefaults] setObject:@{
+                                                               @"username": theUser.username,
+                                                               @"name": theUser.name,
+                                                               @"gravatar": [theUser.gravatar absoluteString]
+                                                               }
+              forKey:@"currentUser"];
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -179,7 +185,21 @@
 }
 
 + (BOOL)isCurrentUser:(HBUser *)user {
+    if (user.username == [[[NSUserDefaults standardUserDefaults] objectForKey:@"currentUser"] objectForKey:@"username"]) return YES;
     return NO;
+}
+
++ (void)currentUserMeta:(void(^)(NSString *, NSString *, NSURL *))current updatedMeta:(void(^)(NSString *, NSString *, NSURL *))updated {
+    NSString *username = [[[NSUserDefaults standardUserDefaults] objectForKey:@"currentUser"] objectForKey:@"username"];
+    NSString *name = [[[NSUserDefaults standardUserDefaults] objectForKey:@"currentUser"] objectForKey:@"name"];
+    NSURL *gravatar = [NSURL URLWithString:[[[NSUserDefaults standardUserDefaults] objectForKey:@"currentUser"] objectForKey:@"gravatar"]];
+    current(username, name,gravatar);
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    [manager GET:[NSString stringWithFormat:@"%@/session",API_BASE_URL] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        updated([responseObject objectForKey:@"username"],[responseObject objectForKey:@"name"],[NSURL URLWithString:[responseObject objectForKey:@"gravatar"]]);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", [error localizedDescription]);
+    }];
 }
 
 #pragma mark - Update User

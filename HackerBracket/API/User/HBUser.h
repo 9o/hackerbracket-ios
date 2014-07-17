@@ -96,4 +96,5 @@
  */
 + (void)updateUser:(NSString *)userId withInfo:(NSDictionary *)info;
 
++ (void)currentUserMeta:(void(^)(NSString *, NSString *, NSURL *))current updatedMeta:(void(^)(NSString *, NSString *, NSURL *))updated;
 @end
