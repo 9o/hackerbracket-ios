@@ -159,9 +159,13 @@
         }
         cell.likesLabel.text = [NSString stringWithFormat:@"%@",self.hack.likes];
         if (self.hack.isLiked) {
-            [cell.likeButton setImage:[UIImage imageNamed:@"helllllyeahh-active"] forState:UIControlStateNormal];
             cell.likeButton.tag = 1;
+        } else {
+            [cell.likeButton setBackgroundColor:[UIColor colorWithWhite:1 alpha:1]];
+            [cell.likeButton setTitleColor:[UIColor colorWithRed:144.0/255.0 green:204.0/255.0 blue:92.0/255.0 alpha:1] forState:UIControlStateNormal];;
         }
+        cell.likeButton.layer.masksToBounds = TRUE;
+        cell.likeButton.layer.cornerRadius = 4;
         [cell.likeButton addTarget:self action:@selector(likeHack:) forControlEvents:UIControlEventTouchUpInside];
         cell.commentsLabel.text = [NSString stringWithFormat:@"%@",self.hack.comments];
         return cell;
@@ -281,12 +285,14 @@
     UIButton *button = sender;
     if (button.tag == 1) {
         [HBHack likeHack:self.hack completion:^(BOOL success) {
-            [button setImage:[UIImage imageNamed:@"helllllyeahh"] forState:UIControlStateNormal];
+            [button setBackgroundColor:[UIColor colorWithRed:144.0/255.0 green:204.0/255.0 blue:92.0/255.0 alpha:1]];
+            [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             button.tag = 0;
         }];
     } else {
         [HBHack unlikeHack:self.hack completion:^(BOOL success) {
-            [button setImage:[UIImage imageNamed:@"helllllyeahh-active"] forState:UIControlStateNormal];
+            [button setBackgroundColor:[UIColor colorWithWhite:1 alpha:1]];
+            [button setTitleColor:[UIColor colorWithRed:144.0/255.0 green:204.0/255.0 blue:92.0/255.0 alpha:1] forState:UIControlStateNormal];
             button.tag = 1;
         }];
     }

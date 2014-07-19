@@ -49,7 +49,8 @@
         [keychainItem setObject:self.emailTextField.text forKey:(__bridge id)(kSecAttrAccount)];
         
         [self performSegueWithIdentifier:@"getStarted" sender:self];
-        if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
+        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound];
+        /*if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
         {
             [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge) categories:nil]];
             [[UIApplication sharedApplication] registerForRemoteNotifications];
@@ -58,7 +59,7 @@
         {
             [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
              (UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert)];
-        }
+        }*/
     }];
 }
 
