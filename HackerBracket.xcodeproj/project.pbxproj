@@ -150,7 +150,7 @@
 		8B5EFC51196A7DEE001E3D57 /* HBLightTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBLightTableViewCell.m; sourceTree = "<group>"; };
 		8B5EFC53196A8190001E3D57 /* HBHackTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBHackTableViewCell.h; sourceTree = "<group>"; };
 		8B5EFC54196A8190001E3D57 /* HBHackTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBHackTableViewCell.m; sourceTree = "<group>"; };
-		8B63BCD719783A770062680C /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
+		8B63BCD719783A770062680C /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		8BA4EC7919636AD8002FBD81 /* HBHackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBHackViewController.h; sourceTree = "<group>"; };
 		8BA4EC7A19636AD8002FBD81 /* HBHackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBHackViewController.m; sourceTree = "<group>"; };
 		8BA4EC8019636B07002FBD81 /* HBCommentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBCommentTableViewCell.h; sourceTree = "<group>"; };
@@ -750,7 +750,7 @@
 				TargetAttributes = {
 					949BFA9D19423DA6004B94A6 = {
 						CreatedOnToolsVersion = 6.0;
-						DevelopmentTeam = 7RJ6858492;
+						DevelopmentTeam = 5BR5Q8NQ9E;
 					};
 					949BFAB319423DA6004B94A6 = {
 						CreatedOnToolsVersion = 6.0;
@@ -1032,6 +1032,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Applications/Xcode6-Beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include",
@@ -1041,6 +1042,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -1050,6 +1052,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Applications/Xcode6-Beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include",
@@ -1059,6 +1062,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

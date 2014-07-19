@@ -24,4 +24,6 @@
         createdAt:(NSDate *)createdAt;
 + (void)getFollowing:(NSString *)userId block:(void(^)(NSArray *followers))block;
 + (void)getFollowers:(NSString *)userId block:(void(^)(NSArray *followers))block;
++ (void)followUser:(NSString *)userId block:(void (^)(BOOL success))block;
++ (void)unfollowUser:(NSString *)userId block:(void (^)(BOOL success))block;
 @end

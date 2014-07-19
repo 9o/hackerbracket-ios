@@ -62,6 +62,11 @@
     }];
 }
 
+- (IBAction)createAccount:(id)sender {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Create Account" message:@"Visit www.HackerBracket.com to create an account." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alert show];
+}
+
 - (void)roundedLayer:(CALayer *)viewLayer
               radius:(float)r
               shadow:(BOOL)s

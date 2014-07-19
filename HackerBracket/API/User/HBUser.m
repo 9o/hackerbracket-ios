@@ -32,6 +32,7 @@
        createdAt:(NSDate *)createdAt
        languages:(NSString *)languages
        interests:(NSString *)interests
+             bio:(NSString *)bio
       attended:(NSString *)attended {
     
     self = [super init];
@@ -55,6 +56,7 @@
         self.createdAt = createdAt;
         self.languages = languages;
         self.interests = interests;
+        self.bio = bio;
         self.attended = attended;
     }
     return self;
@@ -70,6 +72,7 @@
     [manager POST:[NSString stringWithFormat:@"%@/login",API_BASE_URL] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         if ([operation.response statusCode] == 200) {
             NSDictionary *user = responseObject[@"user"];
+            if (!user) return;
             HBUser *theUser = [[HBUser alloc]
                                initWithId:user[@"id"]
                                email:user[@"email"]
@@ -91,6 +94,7 @@
                                createdAt:[NSDate alloc]
                                languages:user[@"languages"]
                                interests:user[@"interests"]
+                               bio:user[@"bio"]
                                attended:user[@"attended"]];
 
             block(theUser);
@@ -150,6 +154,7 @@
                            createdAt:[NSDate alloc]
                            languages:user[@"languages"]
                            interests:user[@"interests"]
+                           bio:user[@"bio"]
                            attended:user[@"attended"]];
         
         block(theUser);

@@ -25,6 +25,7 @@
 @property (nonatomic, copy) NSNumber *comments;
 @property (assign) BOOL isYouTube;
 @property (assign) BOOL isEncoded;
+@property (assign) BOOL isLiked;
 @property (nonatomic, copy) NSDate *createdAt;
 @property (nonatomic, copy) NSArray *team;
 
@@ -52,6 +53,7 @@ typedef enum {
         comments:(NSNumber *)comments
        isYouTube:(BOOL)isYouTube
        isEncoded:(BOOL)isEncoded
+       isLiked:(BOOL)isLiked
        createdAt:(NSDate *)createdAt
             team:(NSArray *)team;
 
@@ -64,10 +66,14 @@ typedef enum {
  Returns all hacks.
  */
 + (void)getHacks:(int)hackType skip:(int)skip withBlock:(void (^)(NSArray *))block;
-+ (void)submitHack:(NSString *)title description:(NSString *)description
-      technologies:(NSString *)technologies
-             video:(NSString *)video
-         thumbnail:(NSString *)thumbnail
-        completion:(void(^)(BOOL success, HBHack *hack))completion;
-
++ (void)submitHackWithTitle:(NSString *)title
+                description:(NSString *)description
+               technologies:(NSString *)technologies
+                    youtube:(NSString *)youtube
+                      video:(NSData *)video
+                 completion:(void(^)(BOOL success))completion;
++ (void)unlikeHack:(HBHack *)hack
+        completion:(void(^)(BOOL success))completion;
++ (void)likeHack:(HBHack *)hack
+      completion:(void(^)(BOOL success))completion;
 @end

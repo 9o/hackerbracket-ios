@@ -35,16 +35,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    if (self.username == nil) {
+    
         id block = ^(NSString *username, NSString *name, NSURL *gravatar) {
-            self.username = username;
-            self.user.username = username;
-            self.user.name = name;
-            self.user.gravatar = gravatar;
+            if (self.username == nil) {
+                self.username = username;
+            self.isOwner = (username == self.user.username ? TRUE : FALSE);
             [self.tableView reloadData];
+            }
         };
         [HBUser currentUserMeta:block updatedMeta:block];
-    }
         [HBUser getUser:self.username block:^(HBUser *user){
             self.user = user;
             [HBHack getHacksForUser:self.user.userId withBlock:^(NSArray *hacks){
@@ -66,8 +65,7 @@
         cell.profileImage.layer.masksToBounds = YES;
 
         cell.userNameLabel.text = self.user.name;
-        cell.bioTextView.text =
-    @"Lorem ipsum dolar sit amet de sita.";
+        cell.bioTextView.text = self.user.bio;
         cell.locationLabel.text = self.user.location;
         return cell;
 
@@ -79,7 +77,11 @@
             if (self.user.isFollowing) {
                 cell.infoLabel.text = @"Following";
                 [cell setBackgroundColor:[UIColor colorWithRed:(90.0/255.0) green:(184.0/255.0) blue:(77.0/255.0) alpha:0.8]];
+            } else {
+                cell.infoLabel.text = @"You are not following";
+                [cell setBackgroundColor:[UIColor colorWithRed:(50.0/255.0) green:(50.0/255.0) blue:(50.0/255.0) alpha:0.75]];
             }
+        
          cell.selectedBackgroundView = selectionColor;
         return cell;
     } else if ([indexPath section] == 2) {
@@ -141,7 +143,19 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     [cell setSelected:NO animated:YES];
-
+    if ([indexPath row] == 0 && [indexPath section] == 1) {
+        if (self.user.isFollowing) {
+            [HBFollow unfollowUser:self.user.userId block:^(BOOL success){
+                self.user.isFollowing = FALSE;
+                [self.tableView reloadData];
+            }];
+        } else {
+            [HBFollow followUser:self.user.userId block:^(BOOL success){
+                self.user.isFollowing = TRUE;
+                [self.tableView reloadData];
+            }];
+        }
+    }
     return;
 }
 
@@ -149,7 +163,7 @@
     if (section == 0) {
         return 1;
     } else if (section == 1) {
-        return (![HBUser isCurrentUser:self.user] ? 1 : 0);
+        return (!self.isOwner ? 1 : 0);
     } else if (section == 2) {
         NSInteger numDarkCells = 0;
         if ([self.user.github length] > 0) {

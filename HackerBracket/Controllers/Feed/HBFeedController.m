@@ -34,6 +34,7 @@ BOOL hasLoadedData = FALSE;
             for (HBHack *hack in hacks) {
                 [self.hacks addObject:hack];
             }
+            [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
             [self.tableView reloadData];
             [self.refreshControl endRefreshing];
         }];
@@ -41,7 +42,6 @@ BOOL hasLoadedData = FALSE;
 
 - (IBAction)showFollowing:(id)sender {
     self.skip = 0;
-    [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
     type = Following;
     [self refreshHacks];
     [UIView animateWithDuration:0.2 animations:^{
@@ -145,10 +145,13 @@ BOOL hasLoadedData = FALSE;
     [self.refreshControl addTarget:self action:@selector(refreshHacks) forControlEvents:UIControlEventValueChanged];
     id block = ^(NSString *username, NSString *name, NSURL *gravatar) {
         UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake( 0, 0, 25, 25)];
-        if (gravatar == NULL || gravatar == nil ) [button setImage:[UIImage imageNamed:@"profile"] forState:UIControlStateNormal];
-        else
-            NSLog(@"The next line crashes shit and I have no idea why.");
-       // [button setImageForState:UIControlStateNormal withURL:[NSURL URLWithString:@"http://gravatar.com/avatar/c7606485562f1907c5565adf7bd76d2c?d=mm"]];
+        if (gravatar == NULL || gravatar == nil ) {
+            
+        [button setImage:[UIImage imageNamed:@"profile"] forState:UIControlStateNormal];
+        [button setHidden:YES];
+        } else
+            [button setImage:[UIImage imageNamed:@"profile"] forState:UIControlStateNormal];
+       //[button setImageForState:UIControlStateNormal withURL:[NSURL URLWithString:@"http://gravatar.com/avatar/c7606485562f1907c5565adf7bd76d2c?d=mm"] placeholderImage:[UIImage imageNamed:@"profile"]];
         [button.layer setBorderColor:[[UIColor whiteColor] CGColor]];
         button.layer.cornerRadius = button.frame.size.width / 2;
         button.layer.masksToBounds = YES;
@@ -177,9 +180,10 @@ BOOL hasLoadedData = FALSE;
     [button addTarget:self action:@selector(dragShowNotifications:withEvent:) forControlEvents:UIControlEventTouchDragOutside];
     [button addTarget:self action:@selector(hideNotificationsIfShown) forControlEvents:UIControlEventTouchUpInside];
     [button addTarget:self action:@selector(showNotifications) forControlEvents:UIControlEventTouchUpOutside];
-
-
-    [view addSubview:button];
+    
+    // A little trick for removing the cell separators
+    self.tableView.tableFooterView = [UIView new];
+    //[view addSubview:button];
     [HBUser currentUserMeta:block updatedMeta:block];
 }
 

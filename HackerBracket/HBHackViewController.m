@@ -158,6 +158,10 @@
             cell = [[HBLikesTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"likes"];
         }
         cell.likesLabel.text = [NSString stringWithFormat:@"%@",self.hack.likes];
+        if (self.hack.isLiked) {
+            [cell.likeButton setImage:[UIImage imageNamed:@"helllllyeahh-active"] forState:UIControlStateNormal];
+            cell.likeButton.tag = 1;
+        }
         [cell.likeButton addTarget:self action:@selector(likeHack:) forControlEvents:UIControlEventTouchUpInside];
         cell.commentsLabel.text = [NSString stringWithFormat:@"%@",self.hack.comments];
         return cell;
@@ -276,11 +280,15 @@
 - (void)likeHack:(id)sender {
     UIButton *button = sender;
     if (button.tag == 1) {
-        [button setImage:[UIImage imageNamed:@"hellyeah"] forState:UIControlStateNormal];
-        button.tag = 0;
+        [HBHack likeHack:self.hack completion:^(BOOL success) {
+            [button setImage:[UIImage imageNamed:@"helllllyeahh"] forState:UIControlStateNormal];
+            button.tag = 0;
+        }];
     } else {
-        [button setImage:[UIImage imageNamed:@"hellyeah-active"] forState:UIControlStateNormal];
-        button.tag = 1;
+        [HBHack unlikeHack:self.hack completion:^(BOOL success) {
+            [button setImage:[UIImage imageNamed:@"helllllyeahh-active"] forState:UIControlStateNormal];
+            button.tag = 1;
+        }];
     }
 }
 

@@ -14,5 +14,6 @@
 @property (weak, nonatomic) IBOutlet UITextField *teamMembersTextField;
 @property (weak, nonatomic) IBOutlet UITextView *descriptionTextView;
 @property (weak, nonatomic) IBOutlet UIView *videoInputView;
-
+@property (nonatomic, strong) NSData *videoData;
+@property (nonatomic, strong) NSString *youtubeURL;
 @end

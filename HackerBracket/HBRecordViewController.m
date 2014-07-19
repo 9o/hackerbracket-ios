@@ -9,7 +9,8 @@
 #import "HBRecordViewController.h"
 #import <MobileCoreServices/MobileCoreServices.h>
 #import <QuartzCore/QuartzCore.h>
-
+#import "HackerBracket.h"
+#import <CRToast/CRToast.h>
 @interface HBRecordViewController ()
 
 @end
@@ -30,10 +31,35 @@ UIImagePickerController *imagePickerController;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.videoData = [[NSData alloc] init];
+    self.youtubeURL = @"";
 }
 
 - (IBAction)submitHack:(id)sender {
-    
+    self.navigationItem.rightBarButtonItem.enabled = FALSE;
+    [HBHack submitHackWithTitle:self.titleTextField.text description:self.descriptionTextView.text technologies:self.technologiesTextField.text youtube:self.youtubeURL video:self.videoData completion:^(BOOL success){
+        if (!success) {
+            self.navigationItem.rightBarButtonItem.enabled = TRUE;
+            NSDictionary *options = @{
+                                      kCRToastTextKey : @"Error Uploading",
+                                      kCRToastTextAlignmentKey : @(NSTextAlignmentCenter),
+                                      kCRToastBackgroundColorKey : [UIColor redColor],
+                                      kCRToastAnimationInTypeKey : @(CRToastAnimationTypeGravity),
+                                      kCRToastAnimationOutTypeKey : @(CRToastAnimationTypeGravity),
+                                      kCRToastAnimationInDirectionKey : @(CRToastAnimationDirectionBottom),
+                                      kCRToastAnimationOutDirectionKey : @(CRToastAnimationDirectionTop),
+                                      kCRToastSubtitleTextKey: @"Error Uploading, Try Again",
+                                      kCRToastNotificationTypeKey: @(CRToastTypeNavigationBar)
+                                      };
+            [CRToastManager showNotificationWithOptions:options
+                                        completionBlock:^{
+                                            NSLog(@"Completed");
+                                        }];
+
+            return;
+        }
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }];
 }
 -(void)textFieldDidEndEditing:(UITextField *)textField {
     // If video URL, check format.
@@ -41,19 +67,29 @@ UIImagePickerController *imagePickerController;
         UITextField *textField = (UITextField*)[self.view viewWithTag:4];
         NSURL *candidateURL = [NSURL URLWithString:textField.text];
         
-        if ([candidateURL.host isEqualToString:@"youtube.com"] && [candidateURL.path isEqualToString:@"/video"] && candidateURL.scheme) {
+        if ([candidateURL.host isEqualToString:@"youtu.be"] && [candidateURL.path isEqualToString:@"/watch"] && candidateURL.scheme) {
             return;
         }
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Video URL"
-                                                        message:@"Only http://youtube.com/video?v= URLs may be used."
-                                                       delegate:self
-                                              cancelButtonTitle:@"OK"
-                                              otherButtonTitles:nil];
-        UITextField *field = (UITextField *)[[self.videoInputView subviews] objectAtIndex:0];
-        NSLog(@"%@",field.text);
-        [(UITextField *)[[self.videoInputView subviews] objectAtIndex:0] setText:@""];
-        [alert show];
+        NSDictionary *options = @{
+                                  kCRToastTextKey : @"Invalid Video URL",
+                                  kCRToastTextAlignmentKey : @(NSTextAlignmentCenter),
+                                  kCRToastBackgroundColorKey : [UIColor redColor],
+                                  kCRToastAnimationInTypeKey : @(CRToastAnimationTypeGravity),
+                                  kCRToastAnimationOutTypeKey : @(CRToastAnimationTypeGravity),
+                                  kCRToastAnimationInDirectionKey : @(CRToastAnimationDirectionBottom),
+                                  kCRToastAnimationOutDirectionKey : @(CRToastAnimationDirectionTop),
+                                  kCRToastSubtitleTextKey: @"E.g http://youtu.be/watch?v=hacked",
+                                  kCRToastNotificationTypeKey: @(CRToastTypeNavigationBar)
+                                  };
+        [CRToastManager showNotificationWithOptions:options
+                                    completionBlock:^{
+                                        NSLog(@"Completed");
+                                    }];
+        [textField setText:@""];
     }
+}
+-(void)textViewDidEndEditing:(UITextView *)textView {
+    self.youtubeURL = textView.text;
 }
 - (IBAction)switchMediaType:(id)sender {
     for (UIView *view in [self.videoInputView subviews]) {
@@ -110,6 +146,8 @@ UIImagePickerController *imagePickerController;
                                           otherButtonTitles:nil];
     [alert show];
     imagePickerController = [[UIImagePickerController alloc] init];
+    imagePickerController.videoQuality = UIImagePickerControllerQualityTypeHigh;
+
     [imagePickerController setSourceType:UIImagePickerControllerSourceTypeCamera];
     imagePickerController.mediaTypes = [[NSArray alloc] initWithObjects:(NSString *)kUTTypeMovie, nil];
     imagePickerController.delegate = self;
@@ -128,7 +166,10 @@ UIImagePickerController *imagePickerController;
 }
 
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    NSURL *videoURL = [info objectForKey:UIImagePickerControllerMediaURL];
     
+    self.videoData = [NSData dataWithContentsOfURL:videoURL];
+    [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)didReceiveMemoryWarning

@@ -14,7 +14,8 @@
 #define REGULAR_FONT @"AvenirNextLTPro-Regular"
 #define MEDIUM_FONT  @"AvenirNextLTPro-Medium"
 
-@interface HBFeedController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
+@interface HBFeedController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+ {
     HackListType type;
 }
 
@@ -27,6 +28,7 @@
 @property (nonatomic, assign) int skip;
 @property (nonatomic, assign) BOOL isLoading;
 
+@property (strong, nonatomic) IBOutlet UITableView *theTableView;
 - (void)refreshHacks;
 - (IBAction)showFollowing:(id)sender;
 - (IBAction)showTrending:(id)sender;

@@ -34,6 +34,7 @@
 @property (nonatomic, copy) NSDate *createdAt;
 @property (nonatomic, copy) NSString *languages;
 @property (nonatomic, copy) NSString *interests;
+@property (nonatomic, copy) NSString *bio;
 @property (nonatomic, copy) NSString *attended;
 
 /*!
@@ -59,6 +60,7 @@
        createdAt:(NSDate *)createdAt
        languages:(NSString *)languages
        interests:(NSString *)interests
+             bio:(NSString *)bio
         attended:(NSString *)attended;
 
 /*!

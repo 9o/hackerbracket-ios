@@ -59,4 +59,25 @@
         NSLog(@"Error: %@", [error localizedDescription]);
     }];
 }
+
++ (void)unfollowUser:(NSString *)userId block:(void (^)(BOOL success))block {
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    [manager DELETE:[NSString stringWithFormat:@"%@/accounts/users/%@/followers",API_BASE_URL, userId] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        block(TRUE);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        block(FALSE);
+        NSLog(@"Error: %@", [error localizedDescription]);
+    }];
+}
+
++ (void)followUser:(NSString *)userId block:(void (^)(BOOL success))block {
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    [manager POST:[NSString stringWithFormat:@"%@/accounts/users/%@/followers",API_BASE_URL, userId] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        block(TRUE);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        block(FALSE);
+        NSLog(@"Error: %@", [error localizedDescription]);
+    }];
+}
+
 @end

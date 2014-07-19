@@ -26,6 +26,7 @@
         comments:(NSNumber *)comments
        isYouTube:(BOOL)isYouTube
        isEncoded:(BOOL)isEncoded
+         isLiked:(BOOL)isLiked
        createdAt:(NSDate *)createdAt
             team:(NSArray *)team {
     
@@ -45,6 +46,7 @@
         self.comments = comments;
         self.isEncoded = isEncoded;
         self.isYouTube = isYouTube;
+        self.isLiked = isLiked;
         self.team = team;
     }
     return self;
@@ -83,7 +85,7 @@
                                                    title:hack[@"title"]
                                              description:hack[@"description"]
                                             technologies:hack[@"technologies"]
-                                                   video:hack[@"video"]
+                                                   video:hack[@"mp4Video"]
                                                thumbnail:[NSURL URLWithString:hack[@"thumbnail"]]
                                                    owner:hack[@"owner"]
                                                ownerName:hack[@"ownerName"]
@@ -93,6 +95,7 @@
                                                 comments:hack[@"commentCount"]
                                                isYouTube:[hack[@"isYoutube"] boolValue]
                                                isEncoded:[hack[@"isEncoded"] boolValue]
+                                                 isLiked:[hack[@"isLiked"] boolValue]
                                                createdAt: [dateFormatter dateFromString:hack[@"createdAt"]]
                                                     team:hack[@"team"]];
             [hacks addObject:theHack];
@@ -131,7 +134,7 @@
                                                    title:hack[@"title"]
                                              description:hack[@"description"]
                                             technologies:hack[@"technologies"]
-                                                   video:hack[@"video"]
+                                                   video:hack[@"mp4Video"]
                                                thumbnail:[NSURL URLWithString:hack[@"thumbnail"]]
                                                    owner:hack[@"owner"]
                                                ownerName:hack[@"ownerName"]
@@ -141,6 +144,7 @@
                                                 comments:hack[@"commentCount"]
                                                isYouTube:[hack[@"isYoutube"] boolValue]
                                                isEncoded:[hack[@"isEncoded"] boolValue]
+                                                 isLiked:[hack[@"isLiked"] boolValue]
                                                createdAt: [dateFormatter dateFromString:hack[@"createdAt"]]
                                                     team:hack[@"team"]];
             [hacks addObject:theHack];
@@ -152,4 +156,64 @@
         NSLog(@"Error: %@", [error localizedDescription]);
     }];
 }
++ (void)submitHackWithTitle:(NSString *)title
+       description:(NSString *)description
+      technologies:(NSString *)technologies
+           youtube:(NSString *)youtube
+             video:(NSData *)video
+        completion:(void(^)(BOOL success))completion {
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    
+    [manager POST:[NSString stringWithFormat:@"%@/hacks",API_BASE_URL] parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        [formData appendPartWithFileData:video
+                                    name:@"userPhoto"
+                                fileName:@"video.mp4" mimeType:@"video/mp4"];
+        
+        [formData appendPartWithFormData:[youtube dataUsingEncoding:NSUTF8StringEncoding]
+                                    name:@"youtube"];
+        
+        [formData appendPartWithFormData:[title dataUsingEncoding:NSUTF8StringEncoding]
+                                    name:@"title"];
+        
+        [formData appendPartWithFormData:[description dataUsingEncoding:NSUTF8StringEncoding]
+                                    name:@"description"];
+        [formData appendPartWithFormData:[technologies dataUsingEncoding:NSUTF8StringEncoding]
+                                    name:@"technologies"];
+        
+        // etc.
+    } success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        completion([responseObject[@"upload"][@"success"] boolValue]);
+        NSLog(@"Response: %@", responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        completion(false);
+        NSLog(@"Error: %@", error);
+    }];
+}
+
++ (void)likeHack:(HBHack *)hack
+      completion:(void(^)(BOOL success))completion {
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    
+    [manager POST:[NSString stringWithFormat:@"%@/hacks/%@/likes",API_BASE_URL,hack.hackId] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        completion(TRUE);
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        completion(TRUE);
+        NSLog(@"Error: %@", [error localizedDescription]);
+    }];
+}
+
++ (void)unlikeHack:(HBHack *)hack
+      completion:(void(^)(BOOL success))completion {
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    
+    [manager DELETE:[NSString stringWithFormat:@"%@/hacks/%@/likes",API_BASE_URL,hack.hackId] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        completion(TRUE);
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        completion(TRUE);
+        NSLog(@"Error: %@", [error localizedDescription]);
+    }];
+}
+
 @end

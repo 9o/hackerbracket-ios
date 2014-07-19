@@ -15,6 +15,7 @@
 @property (weak, nonatomic) HBUser *user;
 @property (strong, nonatomic) NSArray *hacks;
 @property (weak, nonatomic) NSString *username;
+@property (assign, nonatomic) BOOL isOwner;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
