@@ -23,7 +23,11 @@
 @end
 
 @implementation HBHackViewController
+@synthesize mPlayer;
+-(void)viewWillAppear:(BOOL)animated {
+    
 
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -31,16 +35,25 @@
         self.comments = comments;
         NSLog(@"%@",comments);
         self.title = self.hack.title;
+        NSURL* videoURL = [NSURL URLWithString:self.hack.video];
+        mPlayer = [[MPMoviePlayerController alloc] init];
+        mPlayer.movieSourceType = MPMovieSourceTypeStreaming;
+        mPlayer.view.backgroundColor = [UIColor clearColor];
+        mPlayer.movieSourceType = MPMovieSourceTypeStreaming;
+        [mPlayer setContentURL:videoURL];
+        [mPlayer prepareToPlay];
         [self.tableView reloadData];
     }];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(doneButtonClick:)
+                                                 name:MPMoviePlayerWillExitFullscreenNotification
+                                               object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
-    self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
-}
-
--(void)viewDidAppear:(BOOL)animated {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardDidHideNotification object:nil];
     self.commentRect = self.commentView.frame;
     self.tableRect = self.tableView.frame;
+    self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -89,8 +102,8 @@
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationDuration:0.2];
         [UIView setAnimationCurve:UIViewAnimationCurveLinear];
-        self.tableRect = self.tableRect;
-        self.commentRect = self.commentRect;
+        self.tableView.frame = self.tableRect;
+        self.commentView.frame = self.commentRect;
         
         [UIView commitAnimations];
     });
@@ -101,6 +114,8 @@
         NSMutableArray *comments = [[NSMutableArray alloc] initWithArray:self.comments];
         [comments addObject:comment];
         self.comments = comments;
+        self.commentTextField.text = @"";
+        [self.view endEditing:YES];
         [self.tableView reloadData];
     }];
 }
@@ -111,35 +126,43 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)doneButtonClick:(NSNotification*)aNotification{
+    NSNumber *reason = [aNotification.userInfo objectForKey:MPMoviePlayerPlaybackDidFinishReasonUserInfoKey];
+    
+    if ([reason intValue] == MPMovieFinishReasonUserExited) {
+        HBVideoTableViewCell *cell = (HBVideoTableViewCell *)[self.tableView cellForRowAtIndexPath:self.videoPath];
+        for (UIView *view in [cell.contentView subviews])
+            [view removeFromSuperview];
+        [mPlayer.view setFrame:cell.contentView.bounds];
+        [cell.contentView addSubview:mPlayer.view];
+        [mPlayer prepareToPlay];
+        NSLog(@"dd");
+    }
+}
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([indexPath section] == 0) {
+        self.videoPath = indexPath;
         HBVideoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"videoCell"];
         if (cell == nil)
         {
             cell = [[HBVideoTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"videoCell"];
         }
         NSLog(self.hack.isYouTube ? @"Yes" : @"No");
-        self.hackImageView = [[UIImageView alloc] initWithFrame:cell.videoView.bounds];
+        self.hackImageView = [[UIImageView alloc] initWithFrame:cell.contentView.bounds];
         [self.hackImageView  setImageWithURL:self.hack.thumbnail placeholderImage:[UIImage imageNamed:@"placeholder"]];
         self.hackImageView.contentMode = UIViewContentModeScaleAspectFit;
-        [cell.videoView addSubview:self.hackImageView];
+        [cell.contentView addSubview:self.hackImageView];
         
         if (self.hack.isYouTube) {
-            NSURL *videoURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://youtube.com/embed/%@?controls=0&modestbranding=1&showinfo=0",self.hack.video]];
-            UIWebView *mPlayer = [[UIWebView alloc] initWithFrame:cell.videoView.bounds];
-            mPlayer.scrollView.scrollEnabled = NO;
-            [mPlayer loadRequest:[NSURLRequest requestWithURL:videoURL]];
-            [cell.videoView addSubview:mPlayer];
+            NSURL *videoURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://www.youtube.com/embed/%@?controls=0&modestbranding=1&showinfo=0",self.hack.video]];
+            NSLog(@"%@",[NSString stringWithFormat:@"https://www.youtube.com/embed/%@?controls=0&modestbranding=1&showinfo=0",self.hack.video]);
+            UIWebView *webPlayer = [[UIWebView alloc] initWithFrame:cell.contentView.bounds];
+            webPlayer.scrollView.scrollEnabled = NO;
+            [webPlayer loadRequest:[NSURLRequest requestWithURL:videoURL]];
+            [cell.contentView addSubview:webPlayer];
         } else {
-            NSURL* videoURL = [NSURL URLWithString:self.hack.video];
-            MPMoviePlayerController* mPlayer = [[MPMoviePlayerController alloc] initWithContentURL:videoURL];
-            mPlayer.movieSourceType = MPMovieSourceTypeStreaming;
-            mPlayer.view.backgroundColor = [UIColor clearColor];
-            [mPlayer.view setFrame:cell.videoView.bounds];
-            [mPlayer prepareToPlay];
-            [mPlayer play];
-            [cell.videoView addSubview:mPlayer.view];
-            cell.videoView = mPlayer.view;
+            [mPlayer.view setFrame:cell.contentView.bounds];
+            [cell.contentView addSubview:mPlayer.view];
         }
         return cell;
     } else if ([indexPath section] == 1) {
@@ -149,7 +172,9 @@
         cell = [[HBTitleTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"title"];
     }
     cell.titleLabel.text = self.hack.title;
-    cell.descriptionLabel.text = self.hack.description;
+    cell.descriptionLabel.text = self.hack.descriptionText;
+        cell.descriptionLabel.textContainerInset = UIEdgeInsetsZero;
+        cell.descriptionLabel.textContainer.lineFragmentPadding = 0;
         return cell;
     } else if ([indexPath section] == 2) {
         HBLikesTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"likes"];
@@ -187,6 +212,9 @@
         }
         HBComment *comment = [self.comments objectAtIndex:[indexPath row]];
         cell.commentText.text = comment.body;
+        cell.commentText.textContainerInset = UIEdgeInsetsZero;
+        cell.commentText.textContainer.lineFragmentPadding = 0;
+
         UIButton *button = [[UIButton alloc] initWithFrame:cell.usernameButton.frame];
         [cell.usernameButton removeFromSuperview];
         [button addTarget:self action:@selector(showProfile:) forControlEvents:UIControlEventTouchUpInside];
@@ -257,7 +285,7 @@
     if ([indexPath section] == 0) return 192;
     if ([indexPath section] == 1) {
         NSDictionary *descAttributes = @{NSFontAttributeName: [UIFont systemFontOfSize:12]};
-        CGRect descRect = [self.hack.description boundingRectWithSize:CGSizeMake(280, CGFLOAT_MAX)
+        CGRect descRect = [self.hack.descriptionText boundingRectWithSize:CGSizeMake(280, CGFLOAT_MAX)
                                                   options:NSStringDrawingUsesLineFragmentOrigin
                                                attributes:descAttributes
                                                   context:nil];

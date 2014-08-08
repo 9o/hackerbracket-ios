@@ -49,7 +49,7 @@
         [keychainItem setObject:self.emailTextField.text forKey:(__bridge id)(kSecAttrAccount)];
         
         [self performSegueWithIdentifier:@"getStarted" sender:self];
-        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound];
+        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
         /*if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
         {
             [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge) categories:nil]];

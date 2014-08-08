@@ -34,7 +34,7 @@
     if (self) {
         self.hackId = hackId;
         self.title = title;
-        self.description = description;
+        self.descriptionText = description;
         self.technologies = technologies;
         self.video = video;
         self.thumbnail = thumbnail;
@@ -73,19 +73,23 @@
         }
     }
     NSNumber *skipNum = [NSNumber numberWithInt:skip];
-    [manager GET:[NSString stringWithFormat:@"%@/hacks/%@",API_BASE_URL,hackTypeString] parameters:@{
-                                                                                                             @"skip":skipNum
-                                                                                                             }success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [manager GET:[NSString stringWithFormat:@"%@/hacks/%@",API_BASE_URL,hackTypeString] parameters:@{ @"skip" : skipNum }success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSMutableArray *hacks = [NSMutableArray array];
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.ZZZ'z'"];
         [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
         for (id hack in responseObject[@"hacks"]) {
+            NSString *video;
+            if (hack[@"mp4Video"]) video = hack[@"mp4Video"];
+            else video = hack[@"video"];
+            NSString *description;
+            if (hack[@"description"]) description = hack[@"description"];
+            else description = @"";
             HBHack *theHack = [[HBHack alloc] initWithId:hack[@"id"]
                                                    title:hack[@"title"]
-                                             description:hack[@"description"]
+                                             description:description
                                             technologies:hack[@"technologies"]
-                                                   video:hack[@"mp4Video"]
+                                                   video:video
                                                thumbnail:[NSURL URLWithString:hack[@"thumbnail"]]
                                                    owner:hack[@"owner"]
                                                ownerName:hack[@"ownerName"]
@@ -130,11 +134,17 @@
         [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.ZZZ'z'"];
         [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
         for (id hack in responseObject[@"hacks"]) {
+            NSString *video;
+            if (hack[@"mp4Video"]) video = hack[@"mp4Video"];
+            else video = hack[@"video"];
+            NSString *description;
+            if (hack[@"description"]) description = hack[@"description"];
+            else description = @"";
             HBHack *theHack = [[HBHack alloc] initWithId:hack[@"id"]
                                                    title:hack[@"title"]
-                                             description:hack[@"description"]
+                                             description:description
                                             technologies:hack[@"technologies"]
-                                                   video:hack[@"mp4Video"]
+                                                   video:video
                                                thumbnail:[NSURL URLWithString:hack[@"thumbnail"]]
                                                    owner:hack[@"owner"]
                                                ownerName:hack[@"ownerName"]
@@ -157,36 +167,76 @@
     }];
 }
 + (void)submitHackWithTitle:(NSString *)title
-       description:(NSString *)description
-      technologies:(NSString *)technologies
-           youtube:(NSString *)youtube
-             video:(NSData *)video
-        completion:(void(^)(BOOL success))completion {
+                description:(NSString *)description
+               technologies:(NSString *)technologies
+                    youtube:(NSString *)youtube
+                  hackathon:(NSString *)hackathon
+                      video:(NSData *)video
+                 completion:(void(^)(BOOL success))completion
+                   progress:(void(^)(float progress))progress {
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    
-    [manager POST:[NSString stringWithFormat:@"%@/hacks",API_BASE_URL] parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-        [formData appendPartWithFileData:video
-                                    name:@"userPhoto"
-                                fileName:@"video.mp4" mimeType:@"video/mp4"];
-        
-        [formData appendPartWithFormData:[youtube dataUsingEncoding:NSUTF8StringEncoding]
-                                    name:@"youtube"];
-        
-        [formData appendPartWithFormData:[title dataUsingEncoding:NSUTF8StringEncoding]
-                                    name:@"title"];
-        
-        [formData appendPartWithFormData:[description dataUsingEncoding:NSUTF8StringEncoding]
-                                    name:@"description"];
-        [formData appendPartWithFormData:[technologies dataUsingEncoding:NSUTF8StringEncoding]
-                                    name:@"technologies"];
-        
-        // etc.
-    } success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        completion([responseObject[@"upload"][@"success"] boolValue]);
-        NSLog(@"Response: %@", responseObject);
+    [manager GET:[NSString stringWithFormat:@"%@/hacks",API_BASE_URL] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSDictionary *awsPerms = responseObject;
+        AFHTTPRequestOperation *requestOperation = [manager POST:[NSString stringWithFormat:@"https://hackerbracket.s3.amazonaws.com/"] parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+            
+            
+            [formData appendPartWithFormData:[awsPerms[@"fileName"] dataUsingEncoding:NSUTF8StringEncoding]
+                                        name:@"key"];
+            [formData appendPartWithFormData:[awsPerms[@"accessKey"] dataUsingEncoding:NSUTF8StringEncoding]
+                                        name:@"AWSAccessKeyId"];
+            [formData appendPartWithFormData:[@"private" dataUsingEncoding:NSUTF8StringEncoding]
+                                        name:@"acl"];
+            [formData appendPartWithFormData:[awsPerms[@"policy"] dataUsingEncoding:NSUTF8StringEncoding]
+                                        name:@"policy"];
+            [formData appendPartWithFormData:[awsPerms[@"signed"] dataUsingEncoding:NSUTF8StringEncoding]
+                                        name:@"signature"];
+
+            [formData appendPartWithFileData:video
+                                        name:@"file"
+                                    fileName:@"video.mp4" mimeType:@"video/mp4"];
+            // etc.
+        } success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            [manager POST:[NSString stringWithFormat:@"%@/hacks",API_BASE_URL] parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+                
+                [formData appendPartWithFormData:[youtube dataUsingEncoding:NSUTF8StringEncoding]
+                                            name:@"youtube"];
+                
+                [formData appendPartWithFormData:[title dataUsingEncoding:NSUTF8StringEncoding]
+                                            name:@"title"];
+                
+                [formData appendPartWithFormData:[description dataUsingEncoding:NSUTF8StringEncoding]
+                                            name:@"description"];
+                
+                [formData appendPartWithFormData:[technologies dataUsingEncoding:NSUTF8StringEncoding]
+                                            name:@"technologies"];
+                
+                [formData appendPartWithFormData:[awsPerms[@"fileName"] dataUsingEncoding:NSUTF8StringEncoding]
+                                            name:@"key"];
+                
+                [formData appendPartWithFormData:[hackathon dataUsingEncoding:NSUTF8StringEncoding]
+                                            name:@"hackathonName"];
+                // etc.
+            } success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                completion([responseObject[@"upload"][@"success"] boolValue]);
+                NSLog(@"Response: %@", responseObject);
+            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                completion(FALSE);
+                NSLog(@"Error: %@", error);
+            }];
+            NSLog(@"Response: %@", responseObject);
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            completion(FALSE);
+            NSLog(@"Error: %@", error);
+        }];
+        [requestOperation setUploadProgressBlock:^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
+            NSLog(@"Sent %lld of %lld bytes", totalBytesWritten, totalBytesExpectedToWrite);
+            
+            float percentDone = ((float)(totalBytesWritten) / (float)(totalBytesExpectedToWrite));
+            progress(percentDone);
+        }];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        completion(false);
-        NSLog(@"Error: %@", error);
+        completion(FALSE);
+        NSLog(@"Error: %@", [error localizedDescription]);
     }];
 }
 

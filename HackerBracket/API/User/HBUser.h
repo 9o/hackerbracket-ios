@@ -15,6 +15,7 @@
 @property (nonatomic, copy) NSString *email;
 
 @property (assign) BOOL admin;
+@property (assign) BOOL owner;
 @property (assign) BOOL pro;
 @property (assign) BOOL isFollowing;
 
@@ -44,6 +45,7 @@
            email:(NSString *)email
            admin:(BOOL)admin
              pro:(BOOL)pro
+           owner:(BOOL)owner
      isFollowing:(BOOL)isFollowing
        followers:(NSNumber *)followers
        following:(NSNumber *)following

@@ -19,9 +19,14 @@
     return self;
 }
 
-- (void)awakeFromNib
-{
-    // Initialization code
+- (void)awakeFromNib {
+    // Turn down the lights
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 67, self.previewImageView.frame.size.width, self.previewImageView.frame.size.height - 67)];
+    CAGradientLayer *gradient = [CAGradientLayer layer];
+    gradient.frame = view.bounds;
+    gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithWhite:0 alpha:0] CGColor], (id)[[UIColor colorWithWhite:0 alpha:0.8] CGColor], nil];
+    [view.layer insertSublayer:gradient atIndex:0];
+    [self.previewImageView addSubview:view];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated

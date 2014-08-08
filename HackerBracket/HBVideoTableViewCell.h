@@ -9,5 +9,4 @@
 #import <UIKit/UIKit.h>
 
 @interface HBVideoTableViewCell : UITableViewCell
-@property (nonatomic, strong) IBOutlet UIView *videoView;
 @end

@@ -46,6 +46,7 @@
         [HBUser currentUserMeta:block updatedMeta:block];
         [HBUser getUser:self.username block:^(HBUser *user){
             self.user = user;
+            NSLog(@"%@",[NSNumber numberWithBool:self.user.owner]);
             [HBHack getHacksForUser:self.user.userId withBlock:^(NSArray *hacks){
                 self.hacks = hacks;
                 [self.tableView reloadData];
@@ -163,7 +164,7 @@
     if (section == 0) {
         return 1;
     } else if (section == 1) {
-        return (!self.isOwner ? 1 : 0);
+        return (!self.user.owner ? 1 : 0);
     } else if (section == 2) {
         NSInteger numDarkCells = 0;
         if ([self.user.github length] > 0) {

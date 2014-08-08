@@ -35,6 +35,11 @@
 		8BA4EC8819636B3E002FBD81 /* HBUserTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BA4EC8719636B3E002FBD81 /* HBUserTableViewCell.m */; };
 		8BA4EC8B19636B4E002FBD81 /* HBLikesTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BA4EC8A19636B4E002FBD81 /* HBLikesTableViewCell.m */; };
 		8BB9F5151977A47A004F3220 /* hellllllyeah.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 8BB9F5141977A2DD004F3220 /* hellllllyeah.m4a */; };
+		8BC0ACA3197E7BBD00B3384B /* Appsee.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BC0ACA2197E7BBD00B3384B /* Appsee.framework */; };
+		8BC0ACA5197E7C1500B3384B /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BC0ACA4197E7C1500B3384B /* AVFoundation.framework */; };
+		8BC0ACA7197E7C2300B3384B /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BC0ACA6197E7C2300B3384B /* CoreMedia.framework */; };
+		8BC0ACA9197E7C2D00B3384B /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BC0ACA8197E7C2D00B3384B /* CoreVideo.framework */; };
+		8BC0ACAB197E7C3500B3384B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BC0ACAA197E7C3500B3384B /* QuartzCore.framework */; };
 		8BC8A251196A89180058E6BE /* images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 949BFAAE19423DA6004B94A6 /* images.xcassets */; };
 		8BC8A255196A8B920058E6BE /* HBWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC8A254196A8B920058E6BE /* HBWebViewController.m */; };
 		8BE29AC91965466800502666 /* HBFollowTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BE29AC81965466800502666 /* HBFollowTableViewController.m */; };
@@ -162,6 +167,11 @@
 		8BA4EC8919636B4E002FBD81 /* HBLikesTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBLikesTableViewCell.h; sourceTree = "<group>"; };
 		8BA4EC8A19636B4E002FBD81 /* HBLikesTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBLikesTableViewCell.m; sourceTree = "<group>"; };
 		8BB9F5141977A2DD004F3220 /* hellllllyeah.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = hellllllyeah.m4a; sourceTree = "<group>"; };
+		8BC0ACA2197E7BBD00B3384B /* Appsee.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Appsee.framework; sourceTree = "<group>"; };
+		8BC0ACA4197E7C1500B3384B /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		8BC0ACA6197E7C2300B3384B /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		8BC0ACA8197E7C2D00B3384B /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		8BC0ACAA197E7C3500B3384B /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		8BC8A253196A8B920058E6BE /* HBWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBWebViewController.h; sourceTree = "<group>"; };
 		8BC8A254196A8B920058E6BE /* HBWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBWebViewController.m; sourceTree = "<group>"; };
 		8BE29AC71965466800502666 /* HBFollowTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBFollowTableViewController.h; sourceTree = "<group>"; };
@@ -261,13 +271,18 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				941164A21944B0A200EF8681 /* SystemConfiguration.framework in Frameworks */,
+				8BC0ACAB197E7C3500B3384B /* QuartzCore.framework in Frameworks */,
+				8BC0ACA9197E7C2D00B3384B /* CoreVideo.framework in Frameworks */,
+				8BC0ACA7197E7C2300B3384B /* CoreMedia.framework in Frameworks */,
+				941164A51944B0AE00EF8681 /* CoreGraphics.framework in Frameworks */,
+				8BC0ACA5197E7C1500B3384B /* AVFoundation.framework in Frameworks */,
+				8BC0ACA3197E7BBD00B3384B /* Appsee.framework in Frameworks */,
 				8BF601EF19637FC70075E183 /* MediaPlayer.framework in Frameworks */,
 				8BFB065219635D710003D3F5 /* Foundation.framework in Frameworks */,
 				947996D71944B3270040C71F /* libxml2.2.dylib in Frameworks */,
 				941164A71944B0BE00EF8681 /* libz.dylib in Frameworks */,
-				941164A51944B0AE00EF8681 /* CoreGraphics.framework in Frameworks */,
 				941164A31944B0A600EF8681 /* MobileCoreServices.framework in Frameworks */,
-				941164A21944B0A200EF8681 /* SystemConfiguration.framework in Frameworks */,
 				941164A11944B09B00EF8681 /* CFNetwork.framework in Frameworks */,
 				8FC6C80E746841FA918F9094 /* libPods.a in Frameworks */,
 			);
@@ -286,6 +301,10 @@
 		3E462AAE1C8145DDBEAEBCDD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8BC0ACAA197E7C3500B3384B /* QuartzCore.framework */,
+				8BC0ACA8197E7C2D00B3384B /* CoreVideo.framework */,
+				8BC0ACA6197E7C2300B3384B /* CoreMedia.framework */,
+				8BC0ACA4197E7C1500B3384B /* AVFoundation.framework */,
 				0D40B9DDC7584D16A900E144 /* libPods.a */,
 			);
 			name = Frameworks;
@@ -595,6 +614,7 @@
 		949BFAA119423DA6004B94A6 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				8BC0ACA2197E7BBD00B3384B /* Appsee.framework */,
 				8B06F7951978914B00C9CFED /* App Icon Files */,
 				8BB9F5141977A2DD004F3220 /* hellllllyeah.m4a */,
 				949BFAA219423DA6004B94A6 /* Info.plist */,
@@ -1033,6 +1053,10 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HackerBracket",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Applications/Xcode6-Beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include",
@@ -1043,6 +1067,7 @@
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1053,6 +1078,10 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HackerBracket",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Applications/Xcode6-Beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include",
@@ -1063,6 +1092,7 @@
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

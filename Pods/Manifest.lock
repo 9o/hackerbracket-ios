@@ -21,16 +21,16 @@ PODS:
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
   - CRToast (0.0.7)
-  - DZNEmptyDataSet (1.3.3)
+  - M13ProgressSuite (1.2.5)
 
 DEPENDENCIES:
   - AFNetworking (~> 2.0)
   - CRToast (~> 0.0.7)
-  - DZNEmptyDataSet
+  - M13ProgressSuite (~> 1.2.4)
 
 SPEC CHECKSUMS:
   AFNetworking: 6d7b76aa5d04c8c37daad3eef4b7e3f2a7620da3
   CRToast: f9f2c4b29776d68ba24c4d621cba59a83fea921b
-  DZNEmptyDataSet: aa20600aff620af3d78edbff4bc47282972e815f
+  M13ProgressSuite: bf63f5592f1e40767da5203199804ad5eed3eb48
 
 COCOAPODS: 0.33.1

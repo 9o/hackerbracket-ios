@@ -17,6 +17,9 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) UIImageView *hackImageView;
+@property (strong, nonatomic) MPMoviePlayerController *mPlayer;
+@property (strong, nonatomic) NSIndexPath *videoPath;
+
 @property (strong, nonatomic) NSArray *comments;
 @property (assign, nonatomic) CGRect tableRect;
 @property (assign, nonatomic) CGRect commentRect;

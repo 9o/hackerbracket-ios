@@ -16,6 +16,7 @@
            email:(NSString *)email
            admin:(BOOL)admin
              pro:(BOOL)pro
+           owner:(BOOL)owner
      isFollowing:(BOOL)isFollowing
        followers:(NSNumber *)followers
        following:(NSNumber *)following
@@ -40,6 +41,7 @@
         self.userId = userId;
         self.email = email;
         self.admin = admin;
+        self.owner = owner;
         self.isFollowing = isFollowing;
         self.followers = followers;
         self.following = following;
@@ -78,6 +80,7 @@
                                email:user[@"email"]
                                admin:[user[@"admin"] boolValue]
                                pro:[user[@"pro"] boolValue]
+                               owner:[user[@"isOwner"] boolValue]
                                isFollowing:[responseObject[@"isFollowed"] boolValue]
                                followers:user[@"followers"]
                                following:user[@"following"]
@@ -138,6 +141,7 @@
                            email:user[@"email"]
                            admin:[user[@"admin"] boolValue]
                            pro:[user[@"pro"] boolValue]
+                           owner:[responseObject[@"isOwner"] boolValue]
                            isFollowing:[responseObject[@"isFollowed"] boolValue]
                            followers:user[@"followers"]
                            following:user[@"following"]

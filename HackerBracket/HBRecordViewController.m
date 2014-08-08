@@ -15,7 +15,9 @@
 
 @end
 
-@implementation HBRecordViewController
+@implementation HBRecordViewController {
+    M13ProgressHUD *HUD;
+}
 BOOL hasPresented;
 UIImagePickerController *imagePickerController;
 
@@ -36,8 +38,17 @@ UIImagePickerController *imagePickerController;
 }
 
 - (IBAction)submitHack:(id)sender {
+    [self.view endEditing:YES];
     self.navigationItem.rightBarButtonItem.enabled = FALSE;
-    [HBHack submitHackWithTitle:self.titleTextField.text description:self.descriptionTextView.text technologies:self.technologiesTextField.text youtube:self.youtubeURL video:self.videoData completion:^(BOOL success){
+    HUD = [[M13ProgressHUD alloc] initWithProgressView:[[M13ProgressViewRing alloc] init]];
+    HUD.progressViewSize = CGSizeMake(60.0, 60.0);
+    HUD.animationPoint = CGPointMake([UIScreen mainScreen].bounds.size.width / 2, [UIScreen mainScreen].bounds.size.height / 2);
+    [HUD setMaskType:M13ProgressHUDMaskTypeSolidColor];
+    [HUD show:YES];
+    UIWindow *window = [[[UIApplication sharedApplication] delegate] window];
+    [window addSubview:HUD];
+    [HBHack submitHackWithTitle:self.titleTextField.text description:self.descriptionTextView.text technologies:self.technologiesTextField.text youtube:self.youtubeURL hackathon:self.hackathonLabel.text video:self.videoData completion:^(BOOL success) {
+        [HUD hide:YES];
         if (!success) {
             self.navigationItem.rightBarButtonItem.enabled = TRUE;
             NSDictionary *options = @{
@@ -57,8 +68,10 @@ UIImagePickerController *imagePickerController;
                                         }];
 
             return;
-        }
+        } else
         [self.navigationController popToRootViewControllerAnimated:YES];
+    } progress:^(float progress) {
+        [HUD setProgress:progress animated:YES];
     }];
 }
 -(void)textFieldDidEndEditing:(UITextField *)textField {
@@ -88,26 +101,12 @@ UIImagePickerController *imagePickerController;
         [textField setText:@""];
     }
 }
--(void)textViewDidEndEditing:(UITextView *)textView {
-    self.youtubeURL = textView.text;
-}
 - (IBAction)switchMediaType:(id)sender {
     for (UIView *view in [self.videoInputView subviews]) {
         [view removeFromSuperview];
     }
     UISegmentedControl *segment=(UISegmentedControl*)sender;
     switch (segment.selectedSegmentIndex) {
-        case 0: {
-            UITextField *field = [[UITextField alloc] initWithFrame:self.videoInputView.bounds];
-            //field.borderStyle = UITextBorderStyleRoundedRect;
-            field.delegate = self;
-            field.placeholder = @"Video URL (e.g. http://youtube.com/watch?v=awesome";
-            field.font = [UIFont systemFontOfSize:14];
-            field.textColor = [UIColor colorWithRed:144.0/255.0 green:204.0/255.0 blue:92.0/255.0 alpha:1.0];
-            [self.videoInputView addSubview:field];
-            field.tag = 4;
-            break;
-        }
         case 1: {
             UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
             button.frame = self.videoInputView.bounds;

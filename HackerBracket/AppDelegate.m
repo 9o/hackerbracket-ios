@@ -10,13 +10,17 @@
 #import <AudioToolbox/AudioToolbox.h>
 #import "AFNetworking.h"
 #import "HackerBracket.h"
+#import "HBRecordViewController.h"
 #import <CRToast/CRToast.h>
+#import <Appsee/Appsee.h>
 
 @implementation AppDelegate
             
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    [Appsee start:@"2d4eb00e83d14619802f4fbbb65dc362"];
+
     return YES;
 }
 

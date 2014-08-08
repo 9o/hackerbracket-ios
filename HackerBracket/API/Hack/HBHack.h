@@ -13,7 +13,7 @@
 
 @property (nonatomic, copy) NSString *hackId;
 @property (nonatomic, copy) NSString *title;
-@property (nonatomic, copy) NSString *description;
+@property (nonatomic, copy) NSString *descriptionText;
 @property (nonatomic, copy) NSString *technologies;
 @property (nonatomic, copy) NSString *video;
 @property (nonatomic, copy) NSURL *thumbnail;
@@ -70,8 +70,10 @@ typedef enum {
                 description:(NSString *)description
                technologies:(NSString *)technologies
                     youtube:(NSString *)youtube
+                  hackathon:(NSString *)hackathon
                       video:(NSData *)video
-                 completion:(void(^)(BOOL success))completion;
+                 completion:(void(^)(BOOL success))completion
+                   progress:(void(^)(float progress))progress;
 + (void)unlikeHack:(HBHack *)hack
         completion:(void(^)(BOOL success))completion;
 + (void)likeHack:(HBHack *)hack
