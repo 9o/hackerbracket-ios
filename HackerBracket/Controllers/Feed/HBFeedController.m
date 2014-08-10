@@ -85,9 +85,17 @@ BOOL hasLoadedData = FALSE;
     
     HBHack *hack = [self.hacks objectAtIndex:indexPath.row];
     [cell.hackTitleLabel setText:hack.title];
+    [cell.hackDescriptionTextView setText:hack.descriptionText];
     [cell.hackLikesLabel setText:[NSString stringWithFormat:@"%@", hack.likes]];
-    [cell.hackCommentsLabel setText:[NSString stringWithFormat:@"%@", hack.comments]];
-    
+    [cell.hackOwnerButton setTitle:hack.ownerName forState:UIControlStateNormal];
+    MPMoviePlayerController *mPlayer = [[MPMoviePlayerController alloc] init];
+    mPlayer.movieSourceType = MPMovieSourceTypeStreaming;
+    mPlayer.view.backgroundColor = [UIColor clearColor];
+    mPlayer.movieSourceType = MPMovieSourceTypeStreaming;
+    [mPlayer setContentURL:[NSURL URLWithString:hack.video]];
+    [mPlayer prepareToPlay];
+    mPlayer.view.frame = cell.hackImageView.frame;
+    [cell addSubview:mPlayer.view];
     [cell.hackAvatarImageView setImageWithURL:hack.ownerAvatar
                              placeholderImage:[UIImage imageNamed:@"Loading Thumbnail"]];
     

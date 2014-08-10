@@ -11,9 +11,12 @@
 @interface HBHackCell : UITableViewCell
 
 @property (nonatomic, strong) IBOutlet UILabel *hackTitleLabel;
+@property (strong, nonatomic) IBOutlet UITextView *hackDescriptionTextView;
 @property (nonatomic, strong) IBOutlet UILabel *hackLikesLabel;
-@property (nonatomic, strong) IBOutlet UILabel *hackCommentsLabel;
+@property (strong, nonatomic) IBOutlet UIButton *hackHellYeahButton;
 @property (nonatomic, strong) IBOutlet UIImageView *hackImageView;
 @property (nonatomic, strong) IBOutlet UIImageView *hackAvatarImageView;
+@property (strong, nonatomic) IBOutlet UIButton *hackOwnerButton;
+@property (strong, nonatomic) IBOutlet UITableView *hackCommentsTableView;
 
 @end

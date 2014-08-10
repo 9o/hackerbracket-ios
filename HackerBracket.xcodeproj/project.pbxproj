@@ -29,6 +29,7 @@
 		8B5EFC4F196A07FF001E3D57 /* HBDarkTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B5EFC4E196A07FF001E3D57 /* HBDarkTableViewCell.m */; };
 		8B5EFC52196A7DEF001E3D57 /* HBLightTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B5EFC51196A7DEE001E3D57 /* HBLightTableViewCell.m */; };
 		8B5EFC55196A8190001E3D57 /* HBHackTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B5EFC54196A8190001E3D57 /* HBHackTableViewCell.m */; };
+		8B7B606F199830AB0096E1E2 /* HBHackCellCommentsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B7B606E199830AB0096E1E2 /* HBHackCellCommentsTableView.m */; };
 		8BA4EC7B19636AD8002FBD81 /* HBHackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BA4EC7A19636AD8002FBD81 /* HBHackViewController.m */; };
 		8BA4EC8219636B07002FBD81 /* HBCommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BA4EC8119636B07002FBD81 /* HBCommentTableViewCell.m */; };
 		8BA4EC8519636B1C002FBD81 /* HBTitleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BA4EC8419636B1C002FBD81 /* HBTitleTableViewCell.m */; };
@@ -156,6 +157,8 @@
 		8B5EFC53196A8190001E3D57 /* HBHackTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBHackTableViewCell.h; sourceTree = "<group>"; };
 		8B5EFC54196A8190001E3D57 /* HBHackTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBHackTableViewCell.m; sourceTree = "<group>"; };
 		8B63BCD719783A770062680C /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		8B7B606D199830AB0096E1E2 /* HBHackCellCommentsTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBHackCellCommentsTableView.h; sourceTree = "<group>"; };
+		8B7B606E199830AB0096E1E2 /* HBHackCellCommentsTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBHackCellCommentsTableView.m; sourceTree = "<group>"; };
 		8BA4EC7919636AD8002FBD81 /* HBHackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBHackViewController.h; sourceTree = "<group>"; };
 		8BA4EC7A19636AD8002FBD81 /* HBHackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBHackViewController.m; sourceTree = "<group>"; };
 		8BA4EC8019636B07002FBD81 /* HBCommentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBCommentTableViewCell.h; sourceTree = "<group>"; };
@@ -556,6 +559,8 @@
 				8BEEB96619785A2E00D623A6 /* Notifications */,
 				946DFF1E19467F1100F52E38 /* HBHackCell.h */,
 				946DFF1F19467F1100F52E38 /* HBHackCell.m */,
+				8B7B606D199830AB0096E1E2 /* HBHackCellCommentsTableView.h */,
+				8B7B606E199830AB0096E1E2 /* HBHackCellCommentsTableView.m */,
 				946DFF1A19467D2C00F52E38 /* HBFeedController.h */,
 				946DFF1B19467D2C00F52E38 /* HBFeedController.m */,
 			);
@@ -917,6 +922,7 @@
 				94546A331947CE18008F8743 /* UIButton+WebCache.m in Sources */,
 				8BC8A255196A8B920058E6BE /* HBWebViewController.m in Sources */,
 				94546A2A1947CE18008F8743 /* MKAnnotationView+WebCache.m in Sources */,
+				8B7B606F199830AB0096E1E2 /* HBHackCellCommentsTableView.m in Sources */,
 				94546A301947CE18008F8743 /* SDWebImageDownloaderOperation.m in Sources */,
 				949BFACD19423E01004B94A6 /* HBUser.m in Sources */,
 				946DFF2019467F1100F52E38 /* HBHackCell.m in Sources */,
