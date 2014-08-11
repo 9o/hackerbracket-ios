@@ -9,7 +9,7 @@
 #import "HBFeedController.h"
 #import "HBHackViewController.h"
 #import "HBUser.h"
-
+#import "HCYoutubeParser.h"
 @implementation HBFeedController
 BOOL hasLoadedData = FALSE;
 
@@ -109,8 +109,46 @@ BOOL hasLoadedData = FALSE;
     self.pauseAndPlayTapHandler.cancelsTouchesInView = YES;
     self.pauseAndPlayTapHandler.delegate = self;
 
+    UISlider *timelineSlider = [[UISlider alloc] init];
+    timelineSlider.frame = CGRectMake(0, 0, 40, 20);
+    
+    
+    NSURL *videoURL = [[NSURL alloc] init];
+    
+    
+    if (hack.isYouTube == true) {
+    NSDictionary *videos = [HCYoutubeParser h264videosWithYoutubeURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.youtube.com/watch?v=%@",hack.video]]];
+        NSString *youtubeURL = [[NSString alloc] init];
+        
+        NSDictionary *qualities = videos;
+        
+         if ([qualities objectForKey:@"large"] != nil) {
+            youtubeURL = [qualities objectForKey:@"large"];
+            videoURL = [NSURL URLWithString:youtubeURL];
+             NSLog(@"%@",videoURL);
+        } else if ([qualities objectForKey:@"hd720"] != nil) {
+            youtubeURL = [qualities objectForKey:@"hd720"];
+            videoURL = [NSURL URLWithString:youtubeURL];
+            NSLog(@"%@",videoURL);
+        } else if ([qualities objectForKey:@"medium"] != nil) {
+            youtubeURL = [qualities objectForKey:@"medium"];
+            videoURL = [NSURL URLWithString:youtubeURL];
+            NSLog(@"%@",videoURL);
+        }  else if ([qualities objectForKey:@"small"] != nil) {
+            youtubeURL = [qualities objectForKey:@"small"];
+            videoURL = [NSURL URLWithString:youtubeURL];
+            NSLog(@"%@",videoURL);
+        } else {
+            NSLog(@"Couldn't find video URL");
+        }
 
-    NSURL *videoURL = [NSURL URLWithString:hack.video];
+
+    } else if (hack.isYouTube == false) {
+        videoURL = [NSURL URLWithString:hack.video];
+        NSLog(@"%@",hack.video);
+    }
+    
+
     self.mPlayer = [[MPMoviePlayerController alloc] init];
     self.mPlayer.movieSourceType = MPMovieSourceTypeStreaming;
     self.mPlayer.controlStyle = MPMovieControlStyleNone;
@@ -121,10 +159,11 @@ BOOL hasLoadedData = FALSE;
     [self.mPlayer prepareToPlay];
     
 
-    return cell;
-}
+                  return cell;
 
 
+    }
+    
 -(void)pauseAndPlay {
     NSLog(@"tapped");
     if (self.mPlayer.playbackState == MPMoviePlaybackStatePlaying)

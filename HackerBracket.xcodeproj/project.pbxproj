@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0214354B1998B79500098370 /* HCYoutubeParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 0214354A1998B79500098370 /* HCYoutubeParser.m */; };
 		8B06F7A61978914B00C9CFED /* Icon-60.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B06F7961978914B00C9CFED /* Icon-60.png */; };
 		8B06F7A71978914B00C9CFED /* Icon-60@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B06F7971978914B00C9CFED /* Icon-60@2x.png */; };
 		8B06F7A81978914B00C9CFED /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B06F7981978914B00C9CFED /* Icon-72.png */; };
@@ -127,6 +128,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		021435491998B79500098370 /* HCYoutubeParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCYoutubeParser.h; sourceTree = "<group>"; };
+		0214354A1998B79500098370 /* HCYoutubeParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCYoutubeParser.m; sourceTree = "<group>"; };
 		0D40B9DDC7584D16A900E144 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B06F7961978914B00C9CFED /* Icon-60.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-60.png"; sourceTree = "<group>"; };
 		8B06F7971978914B00C9CFED /* Icon-60@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-60@2x.png"; sourceTree = "<group>"; };
@@ -301,6 +304,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		021435481998B77700098370 /* YoutubeParsing */ = {
+			isa = PBXGroup;
+			children = (
+				021435491998B79500098370 /* HCYoutubeParser.h */,
+				0214354A1998B79500098370 /* HCYoutubeParser.m */,
+			);
+			name = YoutubeParsing;
+			sourceTree = "<group>";
+		};
 		3E462AAE1C8145DDBEAEBCDD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -701,6 +713,7 @@
 		949BFAD619423F94004B94A6 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				021435481998B77700098370 /* YoutubeParsing */,
 				8BF0EDB1194D343800971BCE /* Keychain */,
 				94546A0A1947CE18008F8743 /* SDWebImage */,
 				947996711944B2540040C71F /* Reachability */,
@@ -922,6 +935,7 @@
 				94546A331947CE18008F8743 /* UIButton+WebCache.m in Sources */,
 				8BC8A255196A8B920058E6BE /* HBWebViewController.m in Sources */,
 				94546A2A1947CE18008F8743 /* MKAnnotationView+WebCache.m in Sources */,
+				0214354B1998B79500098370 /* HCYoutubeParser.m in Sources */,
 				8B7B606F199830AB0096E1E2 /* HBHackCellCommentsTableView.m in Sources */,
 				94546A301947CE18008F8743 /* SDWebImageDownloaderOperation.m in Sources */,
 				949BFACD19423E01004B94A6 /* HBUser.m in Sources */,
