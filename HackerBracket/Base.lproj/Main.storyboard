@@ -196,7 +196,6 @@
                                             <outlet property="hackLikesLabel" destination="FkD-5n-mOZ" id="hmr-Sm-cqq"/>
                                             <outlet property="hackOwnerButton" destination="yQG-Kv-Mn2" id="iqx-yU-SgU"/>
                                             <outlet property="hackTitleLabel" destination="v6D-0k-VZX" id="fsd-ti-jUs"/>
-                                            <segue destination="h5S-m8-h2R" kind="push" identifier="showHack" id="RIZ-oV-6qE"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -1155,6 +1154,5 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="cHj-eb-KS8"/>
-        <segue reference="RIZ-oV-6qE"/>
     </inferredMetricsTieBreakers>
 </document>

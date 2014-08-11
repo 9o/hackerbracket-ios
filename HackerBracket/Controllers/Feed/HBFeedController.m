@@ -76,6 +76,8 @@ BOOL hasLoadedData = FALSE;
     return [self.hacks count];
 }
 
+
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *cellId = @"CellId";
     HBHackCell *cell = (HBHackCell *)[self.tableView dequeueReusableCellWithIdentifier:cellId];
@@ -83,6 +85,7 @@ BOOL hasLoadedData = FALSE;
     if (!cell) {
         cell = [[HBHackCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
     }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     HBHack *hack = [self.hacks objectAtIndex:indexPath.row];
     [cell.hackAvatarImageView setImageWithURL:hack.ownerAvatar
@@ -100,17 +103,49 @@ BOOL hasLoadedData = FALSE;
     
 
     
-    
+    self.pauseAndPlayTapHandler = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(pauseAndPlay)];
+    [self.pauseAndPlayTapHandler setNumberOfTouchesRequired:1];
+    [self.pauseAndPlayTapHandler setNumberOfTapsRequired:1];
+    self.pauseAndPlayTapHandler.cancelsTouchesInView = YES;
+    self.pauseAndPlayTapHandler.delegate = self;
+
+
     NSURL *videoURL = [NSURL URLWithString:hack.video];
     self.mPlayer = [[MPMoviePlayerController alloc] init];
     self.mPlayer.movieSourceType = MPMovieSourceTypeStreaming;
+    self.mPlayer.controlStyle = MPMovieControlStyleNone;
     [self.mPlayer setContentURL:videoURL];
     [self.mPlayer.view setFrame:cell.hackImageView.frame];
     [cell addSubview:self.mPlayer.view];
+    [self.mPlayer.view addGestureRecognizer:self.pauseAndPlayTapHandler];
     [self.mPlayer prepareToPlay];
+    
 
     return cell;
 }
+
+
+-(void)pauseAndPlay {
+    NSLog(@"tapped");
+    if (self.mPlayer.playbackState == MPMoviePlaybackStatePlaying)
+    {
+        [self.mPlayer pause];
+    } else if (self.mPlayer.playbackState == MPMoviePlaybackStatePaused) {
+        [self.mPlayer play];
+    }
+ 
+}
+
+#pragma mark - gesture delegate
+// this allows you to dispatch touches
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    return YES;
+}
+// this enables you to handle multiple recognizers on single view
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    return YES;
+}
+    /*
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"showHack"]) {
         HBHack *hack = [self.hacks objectAtIndex:[[self.tableView indexPathForSelectedRow] row]];
@@ -118,12 +153,8 @@ BOOL hasLoadedData = FALSE;
         HBHackViewController *vc = segue.destinationViewController;
         vc.hack = hack;
     }
-}
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath
-                                  animated:YES]
-    ;
-}
+}*/
+
 #pragma mark - View
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -244,7 +275,6 @@ BOOL hasLoadedData = FALSE;
     float reload_distance = 10;
     if(y > h + reload_distance) {
         if (!self.isLoading) {
-            [self.mPlayer stop];
             self.isLoading = TRUE;
             self.skip = self.skip + 25;
             [HBHack getHacks:type skip:self.skip withBlock:^(NSArray *hacks) {

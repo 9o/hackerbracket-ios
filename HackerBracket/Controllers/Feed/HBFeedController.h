@@ -15,7 +15,7 @@
 #define REGULAR_FONT @"AvenirNextLTPro-Regular"
 #define MEDIUM_FONT  @"AvenirNextLTPro-Medium"
 
-@interface HBFeedController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface HBFeedController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate>
  {
     HackListType type;
 }
@@ -28,6 +28,7 @@
 @property (strong, nonatomic) MPMoviePlayerController *mPlayer;
 @property (nonatomic, strong) IBOutlet UIView *videoContainer;
 @property (nonatomic, strong) UIImage *avatarImageFromURL;
+@property (nonatomic, strong) UITapGestureRecognizer *pauseAndPlayTapHandler;
 
 @property (nonatomic, assign) int skip;
 @property (nonatomic, assign) BOOL isLoading;
