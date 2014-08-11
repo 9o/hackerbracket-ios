@@ -84,20 +84,10 @@ BOOL hasLoadedData = FALSE;
     }
     
     HBHack *hack = [self.hacks objectAtIndex:indexPath.row];
-    [cell.hackTitleLabel setText:hack.title];
-    [cell.hackDescriptionTextView setText:hack.descriptionText];
-    [cell.hackLikesLabel setText:[NSString stringWithFormat:@"%@", hack.likes]];
-    [cell.hackOwnerButton setTitle:hack.ownerName forState:UIControlStateNormal];
-    MPMoviePlayerController *mPlayer = [[MPMoviePlayerController alloc] init];
-    mPlayer.movieSourceType = MPMovieSourceTypeStreaming;
-    mPlayer.view.backgroundColor = [UIColor clearColor];
-    mPlayer.movieSourceType = MPMovieSourceTypeStreaming;
-    [mPlayer setContentURL:[NSURL URLWithString:hack.video]];
-    [mPlayer prepareToPlay];
-    mPlayer.view.frame = cell.hackImageView.frame;
-    [cell addSubview:mPlayer.view];
     [cell.hackAvatarImageView setImageWithURL:hack.ownerAvatar
                              placeholderImage:[UIImage imageNamed:@"Loading Thumbnail"]];
+    
+    cell.hackTitleLabel.text = hack.title;
     
     UIGraphicsBeginImageContextWithOptions(cell.hackAvatarImageView.bounds.size, NO, [UIScreen mainScreen].scale);
     [[UIBezierPath bezierPathWithRoundedRect:cell.hackAvatarImageView.bounds
@@ -107,12 +97,20 @@ BOOL hasLoadedData = FALSE;
     cell.hackAvatarImageView.image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     
-    [cell.hackImageView setImageWithURL:hack.thumbnail
-                       placeholderImage:[UIImage imageNamed:@"Loading Thumbnail"]];
+
     
+    
+    NSURL *videoURL = [NSURL URLWithString:hack.video];
+    self.mPlayer = [[MPMoviePlayerController alloc] init];
+    self.mPlayer.movieSourceType = MPMovieSourceTypeStreaming;
+    [self.mPlayer setContentURL:videoURL];
+    [self.mPlayer prepareToPlay];
+    [self.mPlayer.view setFrame:cell.hackImageView.frame];
+    [cell addSubview:self.mPlayer.view];
+    [self.mPlayer prepareToPlay];
+
     return cell;
 }
-
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"showHack"]) {
         HBHack *hack = [self.hacks objectAtIndex:[[self.tableView indexPathForSelectedRow] row]];
@@ -139,6 +137,7 @@ BOOL hasLoadedData = FALSE;
 }
 
 - (void)viewDidLoad {
+
     type = Following;
     [super viewDidLoad];
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:144.0/255.0 green:204.0/255.0 blue:92.0/255.0 alpha:1.0];
@@ -154,16 +153,19 @@ BOOL hasLoadedData = FALSE;
     id block = ^(NSString *username, NSString *name, NSURL *gravatar) {
         UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake( 0, 0, 25, 25)];
         if (gravatar == NULL || gravatar == nil ) {
-            
         [button setImage:[UIImage imageNamed:@"profile"] forState:UIControlStateNormal];
+            button.frame = CGRectMake(0, 0, 50, 50);
         [button setHidden:YES];
         } else
-            [button setImage:[UIImage imageNamed:@"profile"] forState:UIControlStateNormal];
+            self.avatarImageFromURL = [UIImage imageWithData:[NSData dataWithContentsOfURL:gravatar]];
+        [button setImage:self.avatarImageFromURL forState:UIControlStateNormal];
        //[button setImageForState:UIControlStateNormal withURL:[NSURL URLWithString:@"http://gravatar.com/avatar/c7606485562f1907c5565adf7bd76d2c?d=mm"] placeholderImage:[UIImage imageNamed:@"profile"]];
         [button.layer setBorderColor:[[UIColor whiteColor] CGColor]];
         button.layer.cornerRadius = button.frame.size.width / 2;
         button.layer.masksToBounds = YES;
         [button addTarget:self action:@selector(showProfile) forControlEvents:UIControlEventTouchUpInside];
+        [[button layer] setBorderWidth:1.5f];
+        [[button layer] setBorderColor:[UIColor whiteColor].CGColor];
         UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:button];
         
         self.navigationItem.leftBarButtonItem = item;

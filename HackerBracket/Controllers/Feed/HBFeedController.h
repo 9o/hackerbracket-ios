@@ -10,6 +10,7 @@
 #import "HackerBracket.h"
 #import "HBHackCell.h"
 #import "UIImageView+WebCache.h"
+#import <MediaPlayer/MPMoviePlayerController.h>
 
 #define REGULAR_FONT @"AvenirNextLTPro-Regular"
 #define MEDIUM_FONT  @"AvenirNextLTPro-Medium"
@@ -24,6 +25,9 @@
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) IBOutlet UIView *indicatorView;
 @property (nonatomic, strong) UIView *notificationsView;
+@property (strong, nonatomic) MPMoviePlayerController *mPlayer;
+@property (nonatomic, strong) IBOutlet UIView *videoContainer;
+@property (nonatomic, strong) UIImage *avatarImageFromURL;
 
 @property (nonatomic, assign) int skip;
 @property (nonatomic, assign) BOOL isLoading;
