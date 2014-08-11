@@ -8,6 +8,7 @@
 
 #import "HBFeedController.h"
 #import "HBHackViewController.h"
+#import "HBUser.h"
 
 @implementation HBFeedController
 BOOL hasLoadedData = FALSE;
@@ -104,7 +105,6 @@ BOOL hasLoadedData = FALSE;
     self.mPlayer = [[MPMoviePlayerController alloc] init];
     self.mPlayer.movieSourceType = MPMovieSourceTypeStreaming;
     [self.mPlayer setContentURL:videoURL];
-    [self.mPlayer prepareToPlay];
     [self.mPlayer.view setFrame:cell.hackImageView.frame];
     [cell addSubview:self.mPlayer.view];
     [self.mPlayer prepareToPlay];
@@ -157,10 +157,12 @@ BOOL hasLoadedData = FALSE;
             button.frame = CGRectMake(0, 0, 50, 50);
         [button setHidden:YES];
         } else
-            self.avatarImageFromURL = [UIImage imageWithData:[NSData dataWithContentsOfURL:gravatar]];
-        [button setImage:self.avatarImageFromURL forState:UIControlStateNormal];
-       //[button setImageForState:UIControlStateNormal withURL:[NSURL URLWithString:@"http://gravatar.com/avatar/c7606485562f1907c5565adf7bd76d2c?d=mm"] placeholderImage:[UIImage imageNamed:@"profile"]];
-        [button.layer setBorderColor:[[UIColor whiteColor] CGColor]];
+            [button.layer setBorderColor:[[UIColor whiteColor] CGColor]];
+
+        UIImageView *profileImage = [[UIImageView alloc] init];
+        [profileImage setImageWithURL:gravatar];
+        [button setImage:profileImage.image forState:UIControlStateNormal];
+        
         button.layer.cornerRadius = button.frame.size.width / 2;
         button.layer.masksToBounds = YES;
         [button addTarget:self action:@selector(showProfile) forControlEvents:UIControlEventTouchUpInside];
@@ -242,6 +244,7 @@ BOOL hasLoadedData = FALSE;
     float reload_distance = 10;
     if(y > h + reload_distance) {
         if (!self.isLoading) {
+            [self.mPlayer stop];
             self.isLoading = TRUE;
             self.skip = self.skip + 25;
             [HBHack getHacks:type skip:self.skip withBlock:^(NSArray *hacks) {
