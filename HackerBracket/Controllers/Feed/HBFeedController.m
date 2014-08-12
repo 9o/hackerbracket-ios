@@ -10,6 +10,8 @@
 #import "HBHackViewController.h"
 #import "HBUser.h"
 #import "HCYoutubeParser.h"
+#import <AVFoundation/AVFoundation.h>
+
 @implementation HBFeedController
 BOOL hasLoadedData = FALSE;
 
@@ -42,6 +44,7 @@ BOOL hasLoadedData = FALSE;
 }
 
 - (IBAction)showFollowing:(id)sender {
+    [self.mPlayer pause];
     self.skip = 0;
     type = Following;
     [self refreshHacks];
@@ -51,6 +54,7 @@ BOOL hasLoadedData = FALSE;
 }
 
 - (IBAction)showTrending:(id)sender {
+    [self.mPlayer pause];
     self.skip = 0;
     [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
     type = Trending;
@@ -61,6 +65,7 @@ BOOL hasLoadedData = FALSE;
 }
 
 - (IBAction)showRecent:(id)sender {
+    [self.mPlayer pause];
     self.skip = 0;
     [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
     type = Recent;
@@ -75,7 +80,6 @@ BOOL hasLoadedData = FALSE;
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return [self.hacks count];
 }
-
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -119,7 +123,6 @@ BOOL hasLoadedData = FALSE;
     if (hack.isYouTube == true) {
     NSDictionary *videos = [HCYoutubeParser h264videosWithYoutubeURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.youtube.com/watch?v=%@",hack.video]]];
         NSString *youtubeURL = [[NSString alloc] init];
-        
         NSDictionary *qualities = videos;
         
          if ([qualities objectForKey:@"large"] != nil) {
@@ -142,25 +145,23 @@ BOOL hasLoadedData = FALSE;
             NSLog(@"Couldn't find video URL");
         }
 
-
     } else if (hack.isYouTube == false) {
         videoURL = [NSURL URLWithString:hack.video];
         NSLog(@"%@",hack.video);
+        
     }
     
-
+    [self.mPlayer thumbnailImageAtTime:1 timeOption:MPMovieTimeOptionNearestKeyFrame];
     self.mPlayer = [[MPMoviePlayerController alloc] init];
     self.mPlayer.movieSourceType = MPMovieSourceTypeStreaming;
     self.mPlayer.controlStyle = MPMovieControlStyleNone;
     [self.mPlayer setContentURL:videoURL];
     [self.mPlayer.view setFrame:cell.hackImageView.frame];
     [cell addSubview:self.mPlayer.view];
-    [self.mPlayer.view addGestureRecognizer:self.pauseAndPlayTapHandler];
     [self.mPlayer prepareToPlay];
+    [self.mPlayer.view addGestureRecognizer:self.pauseAndPlayTapHandler];
     
-
-                  return cell;
-
+    return cell;
 
     }
     
@@ -291,6 +292,7 @@ BOOL hasLoadedData = FALSE;
 - (void)showProfile {
     NSLog(@"shown");
     [self performSegueWithIdentifier:@"viewMyProfile" sender:self];
+    [self.mPlayer pause];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -330,6 +332,10 @@ BOOL hasLoadedData = FALSE;
         }
 
     }
+}
+
+-(void)viewDidDisappear:(BOOL)animated {
+    [self.mPlayer pause];
 }
 
 @end
