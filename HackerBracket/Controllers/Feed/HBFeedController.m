@@ -81,6 +81,17 @@ BOOL hasLoadedData = FALSE;
     return [self.hacks count];
 }
 
++ (UIImage *)imageFromColor:(UIColor *)color {
+    CGRect rect = CGRectMake(0, 0, 1, 1);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    CGContextFillRect(context, rect);
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return image;
+}
+
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *cellId = @"CellId";
@@ -94,9 +105,12 @@ BOOL hasLoadedData = FALSE;
     HBHack *hack = [self.hacks objectAtIndex:indexPath.row];
     [cell.hackAvatarImageView setImageWithURL:hack.ownerAvatar
                              placeholderImage:[UIImage imageNamed:@"Loading Thumbnail"]];
-    
     cell.hackTitleLabel.text = hack.title;
-    
+    cell.hackDescriptionTextView.text = hack.descriptionText;
+    [cell.hackOwnerButton setTitle:hack.ownerName forState:UIControlStateNormal];
+    cell.hackLikesLabel.text = [NSString stringWithFormat:@"%@",hack.likes];
+    [cell.hackHellYeahButton addTarget:self action:@selector(likeHack:) forControlEvents:UIControlEventTouchUpInside];
+
     UIGraphicsBeginImageContextWithOptions(cell.hackAvatarImageView.bounds.size, NO, [UIScreen mainScreen].scale);
     [[UIBezierPath bezierPathWithRoundedRect:cell.hackAvatarImageView.bounds
                                 cornerRadius:25.0f] addClip];
@@ -156,14 +170,31 @@ BOOL hasLoadedData = FALSE;
     self.mPlayer.movieSourceType = MPMovieSourceTypeStreaming;
     self.mPlayer.controlStyle = MPMovieControlStyleNone;
     [self.mPlayer setContentURL:videoURL];
+    self.mPlayer.repeatMode = MPMovieRepeatModeNone;
     [self.mPlayer.view setFrame:cell.hackImageView.frame];
     [cell addSubview:self.mPlayer.view];
     [self.mPlayer prepareToPlay];
     [self.mPlayer.view addGestureRecognizer:self.pauseAndPlayTapHandler];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(loop:)
+                                                 name:MPMoviePlayerPlaybackDidFinishNotification
+                                               object:self.mPlayer];
     
     return cell;
 
     }
+
+- (void)loop:(NSNotification *)note
+{
+    if (note.object == self.mPlayer) {
+        NSInteger reason = [[note.userInfo objectForKey:MPMoviePlayerPlaybackDidFinishReasonUserInfoKey] integerValue];
+        if (reason == MPMovieFinishReasonPlaybackEnded)
+        {
+            [self.mPlayer play];
+        }
+    }
+}
+
     
 -(void)pauseAndPlay {
     NSLog(@"tapped");
