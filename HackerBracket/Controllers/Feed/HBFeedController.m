@@ -109,7 +109,6 @@ BOOL hasLoadedData = FALSE;
     cell.hackDescriptionTextView.text = hack.descriptionText;
     [cell.hackOwnerButton setTitle:hack.ownerName forState:UIControlStateNormal];
     cell.hackLikesLabel.text = [NSString stringWithFormat:@"%@",hack.likes];
-    [cell.hackHellYeahButton addTarget:self action:@selector(likeHack:) forControlEvents:UIControlEventTouchUpInside];
 
     UIGraphicsBeginImageContextWithOptions(cell.hackAvatarImageView.bounds.size, NO, [UIScreen mainScreen].scale);
     [[UIBezierPath bezierPathWithRoundedRect:cell.hackAvatarImageView.bounds
