@@ -3,7 +3,7 @@ HackerBracket for iOS
 
 ####Things to do
 
-- [ ] Make videos smooth and reliable
+- [ ] Make videos smooth and reliable (getting better but still needs work)
 - [x] Hook up API to feed
 - [ ] Dynamic height everywhere
 	- [ ] Dynamic height in the feed

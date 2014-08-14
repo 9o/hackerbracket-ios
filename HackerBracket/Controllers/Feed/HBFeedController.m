@@ -11,7 +11,7 @@
 #import "HBUser.h"
 #import "HCYoutubeParser.h"
 #import <AVFoundation/AVFoundation.h>
-
+#import "HBProfileViewController.h"
 @implementation HBFeedController
 BOOL hasLoadedData = FALSE;
 
@@ -96,7 +96,7 @@ BOOL hasLoadedData = FALSE;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *cellId = @"CellId";
     HBHackCell *cell = (HBHackCell *)[self.tableView dequeueReusableCellWithIdentifier:cellId];
-    
+
     if (!cell) {
         cell = [[HBHackCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
     }
@@ -235,24 +235,27 @@ BOOL hasLoadedData = FALSE;
 #pragma mark - View
 
 - (void)viewDidAppear:(BOOL)animated {
+    
     if (!hasLoadedData) {
         hasLoadedData = TRUE;
     self.hacks = [NSMutableArray array];
-        [self.tableView setContentOffset:CGPointMake(0, -self.indicatorView.frame.size.height) animated:YES];
 
 [self refreshHacks];
     }
 }
 
 - (void)viewDidLoad {
-
-    type = Following;
     [super viewDidLoad];
-    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:144.0/255.0 green:204.0/255.0 blue:92.0/255.0 alpha:1.0];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    self.navigationController.navigationBar.translucent = NO;
+    self.navigationController.navigationBar.translucent = YES;
     self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor whiteColor]};
     self.navigationController.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Light Logo"]];
+    self.navigationController.navigationBar.barTintColor = [UIColor clearColor];
+    UIToolbar *tab = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 320, 64)];
+    tab.barTintColor = [UIColor colorWithRed:144.0/255.0 green:204.0/255.0 blue:92.0/255.0 alpha:1.0];
+    
+    // And finally we add it to the background view of UINavigationBar... but it can change with future release of iOS. Be aware !
+    [[self.navigationController.navigationBar.subviews firstObject] addSubview:tab];
     // Setup refresh control
     self.refreshControl = [UIRefreshControl new];
     [self.refreshControl setTintColor:[UIColor colorWithRed:90/255.0f green:184/255.0f blue:77/255.0f alpha:1.0f]];
@@ -337,38 +340,12 @@ BOOL hasLoadedData = FALSE;
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)aScrollView {
-    CGPoint offset = aScrollView.contentOffset;
-    CGRect bounds = aScrollView.bounds;
-    CGSize size = aScrollView.contentSize;
-    UIEdgeInsets inset = aScrollView.contentInset;
-    float y = offset.y + bounds.size.height - inset.bottom;
-    float h = size.height;
+
     // NSLog(@"offset: %f", offset.y);
     // NSLog(@"content.height: %f", size.height);
     // NSLog(@"bounds.height: %f", bounds.size.height);
     // NSLog(@"inset.top: %f", inset.top);
     // NSLog(@"inset.bottom: %f", inset.bottom);
-    // NSLog(@"pos: %f of %f", y, h);
-    
-    float reload_distance = 10;
-    if(y > h + reload_distance) {
-        if (!self.isLoading) {
-            self.isLoading = TRUE;
-            self.skip = self.skip + 25;
-            [HBHack getHacks:type skip:self.skip withBlock:^(NSArray *hacks) {
-                self.isLoading = FALSE;
-                // If there are no hacks, we are at the bottom. Prevent more requests by saying it is already loading.
-                if ([hacks count] == 0) {
-                    self.isLoading = TRUE;
-                }
-                for (HBHack *hack in hacks) {
-                    [self.hacks addObject:hack];
-                }
-                [self.tableView reloadData];
-            }];
-        }
-
-    }
 }
 
 
@@ -396,10 +373,5 @@ BOOL hasLoadedData = FALSE;
         }];
     }}
 
-
-
--(void)viewDidDisappear:(BOOL)animated {
-    [self.mPlayer pause];
-}
 
 @end
