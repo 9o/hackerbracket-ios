@@ -179,6 +179,13 @@ BOOL hasLoadedData = FALSE;
                                                  name:MPMoviePlayerPlaybackDidFinishNotification
                                                object:self.mPlayer];
     
+    if (hack.isLiked) {
+        cell.hackHellYeahButton.tag = 1;
+    } else {
+    }
+    
+    [cell.hackHellYeahButton addTarget:self action:@selector(likeHack:) forControlEvents:UIControlEventTouchUpInside];
+    
     return cell;
 
     }
@@ -363,6 +370,33 @@ BOOL hasLoadedData = FALSE;
 
     }
 }
+
+
+- (void)likeHack:(UIButton *)sender {
+    UIButton *button = sender;
+    static NSString *cellId = @"CellId";
+    HBHackCell *cell = (HBHackCell *)sender.superview;
+      cell = [self.tableView dequeueReusableCellWithIdentifier:cellId];
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    HBHack *hack = [self.hacks objectAtIndex:indexPath.row];
+    
+    if (button.tag == 0) {
+        [HBHack likeHack:hack completion:^(BOOL success) {
+            NSLog(@"You liked '%@'",hack.title);
+            [button setBackgroundColor:[UIColor colorWithRed:144.0/255.0 green:204.0/255.0 blue:92.0/255.0 alpha:1]];
+            [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            button.tag = 1;
+        }];
+    } else if (button.tag == 1) {
+        [HBHack unlikeHack:hack completion:^(BOOL success) {
+            NSLog(@"You unliked '%@'",hack.title);
+            [button setBackgroundColor:[UIColor colorWithWhite:1 alpha:1]];
+            [button setTitleColor:[UIColor colorWithRed:144.0/255.0 green:204.0/255.0 blue:92.0/255.0 alpha:1] forState:UIControlStateNormal];
+            button.tag = 1;
+        }];
+    }}
+
+
 
 -(void)viewDidDisappear:(BOOL)animated {
     [self.mPlayer pause];
