@@ -8,5 +8,6 @@ HackerBracket for iOS
 - [ ] Dynamic height everywhere
 	- [ ] Dynamic height in the feed
 	- [ ] Dynamic height in the profile view
-- [ ] Make UINavigationBar blurry again
+- [x] Make UINavigationBar blurry again
+- [x] Cool swipe functionality
 - [ ] iOS 6 optimizations?
