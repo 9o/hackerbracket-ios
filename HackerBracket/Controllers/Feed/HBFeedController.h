@@ -29,6 +29,10 @@
 @property (nonatomic, strong) IBOutlet UIView *videoContainer;
 @property (nonatomic, strong) UIImage *avatarImageFromURL;
 @property (nonatomic, strong) UITapGestureRecognizer *pauseAndPlayTapHandler;
+@property (nonatomic, strong) UIPageControl *pageControl;
+@property (nonatomic, strong) UILabel *pageLabel;
+@property (nonatomic, strong) UISwipeGestureRecognizer *recognizer;
+@property (nonatomic, strong) UISwipeGestureRecognizer *recognizerPrevious;
 
 @property (nonatomic, assign) int skip;
 @property (nonatomic, assign) BOOL isLoading;

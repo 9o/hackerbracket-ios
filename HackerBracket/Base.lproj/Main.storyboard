@@ -138,7 +138,7 @@
                                                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                                         </state>
                                                                     </button>
-                                                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" editable="NO" text="Comment text" translatesAutoresizingMaskIntoConstraints="NO" id="Xcq-pg-ZjW">
+                                                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" editable="NO" text="Comment text" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xcq-pg-ZjW">
                                                                         <rect key="frame" x="71" y="36" width="242" height="33"/>
                                                                         <color key="textColor" red="0.1960784314" green="0.1960784314" blue="0.1960784314" alpha="1" colorSpace="calibratedRGB"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -1013,7 +1013,7 @@
                                     <constraint firstAttribute="width" constant="251" id="hGT-Os-0Hg"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
+                                <textInputTraits key="textInputTraits" keyboardType="emailAddress" returnKeyType="go"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rYY-Oc-qMP">
                                 <rect key="frame" x="35" y="200" width="251" height="49"/>
@@ -1022,7 +1022,7 @@
                                     <constraint firstAttribute="width" constant="251" id="cg8-Ey-DsF"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="go" secureTextEntry="YES"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vQW-5o-s13">
                                 <rect key="frame" x="31" y="257" width="259" height="38"/>
@@ -1051,7 +1051,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="CrC-N7-MdG" kind="modal" identifier="getStarted" id="UAH-Po-tKP"/>
+                                    <segue destination="CrC-N7-MdG" kind="modal" identifier="getStarted" modalTransitionStyle="crossDissolve" id="UAH-Po-tKP"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jhy-lK-kCG">

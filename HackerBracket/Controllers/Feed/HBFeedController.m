@@ -12,6 +12,7 @@
 #import "HCYoutubeParser.h"
 #import <AVFoundation/AVFoundation.h>
 #import "HBProfileViewController.h"
+#import "UIView+Blur.h"
 @implementation HBFeedController
 BOOL hasLoadedData = FALSE;
 
@@ -43,36 +44,108 @@ BOOL hasLoadedData = FALSE;
         }];
 }
 
-- (IBAction)showFollowing:(id)sender {
+- (void)showFollowing:(id)sender {
+    [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
     [self.mPlayer pause];
     self.skip = 0;
     type = Following;
     [self refreshHacks];
-    [UIView animateWithDuration:0.2 animations:^{
-        self.indicatorView.frame = CGRectMake(10, 35, 75, 5);
-    }];
+    
+    CATransition *animation = [CATransition animation];
+    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    animation.type = kCATransitionPush;
+    [animation setSubtype:kCATransitionFromRight];
+    animation.duration = 0.45;
+    [self.pageLabel.layer addAnimation:animation forKey:@"kCATransitionFade"];
+    self.pageLabel.text = @"Following";
+
+
 }
 
-- (IBAction)showTrending:(id)sender {
+- (void)showTrending:(id)sender {
     [self.mPlayer pause];
+    self.recognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(showRecent:)];
+    
     self.skip = 0;
     [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
     type = Trending;
     [self refreshHacks];
-    [UIView animateWithDuration:0.2 animations:^{
-        self.indicatorView.frame = CGRectMake(103, 35, 75, 5);
-    }];
+    [self.pageControl setCurrentPage:1];
+    CATransition *animation = [CATransition animation];
+    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    animation.type = kCATransitionPush;
+    [animation setSubtype:kCATransitionFromRight];
+    animation.duration = 0.45;
+    [self.pageLabel.layer addAnimation:animation forKey:@"kCATransitionFade"];
+    self.pageLabel.text = @"Popular";
 }
 
-- (IBAction)showRecent:(id)sender {
+- (void)showRecent:(id)sender {
     [self.mPlayer pause];
     self.skip = 0;
     [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
     type = Recent;
     [self refreshHacks];
-    [UIView animateWithDuration:0.2 animations:^{
-        self.indicatorView.frame = CGRectMake(196, 35, 75, 5);
-    }];
+    
+
+
+}
+
+-(void)changePagesNext:(id)sender {
+    if (type == Following) {
+        [self showTrending:(sender)];
+        [self.pageControl setCurrentPage:1];
+        CATransition *animation = [CATransition animation];
+        animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        animation.type = kCATransitionPush;
+        [animation setSubtype:kCATransitionFromRight];
+        animation.duration = 0.45;
+        [self.pageLabel.layer addAnimation:animation forKey:@"kCATransitionFade"];
+        self.pageLabel.text = @"Popular";
+
+        
+    } else if (type == Trending) {
+        [self showRecent:(sender)];
+        [self.pageControl setCurrentPage:2];
+        CATransition *animation = [CATransition animation];
+        animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        animation.type = kCATransitionPush;
+        [animation setSubtype:kCATransitionFromRight];
+        animation.duration = 0.45;
+        [self.pageLabel.layer addAnimation:animation forKey:@"kCATransitionFade"];
+        self.pageLabel.text = @"Recent";
+
+    }
+    
+}
+
+-(void)changePagesPrevious:(id)sender {
+    if (type == Following) {
+        
+    } else if (type == Trending) {
+        [self showFollowing:(sender)];
+        [self.pageControl setCurrentPage:0];
+        CATransition *animation = [CATransition animation];
+        animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        animation.type = kCATransitionPush;
+        [animation setSubtype:kCATransitionFromLeft];
+        animation.duration = 0.45;
+        [self.pageLabel.layer addAnimation:animation forKey:@"kCATransitionFade"];
+        self.pageLabel.text = @"Following";
+
+    } else if (type == Recent) {
+        [self showTrending:(sender)];
+        [self.pageControl setCurrentPage:1];
+        CATransition *animation = [CATransition animation];
+        animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        animation.type = kCATransitionPush;
+        [animation setSubtype:kCATransitionFromLeft];
+        animation.duration = 0.45;
+        [self.pageLabel.layer addAnimation:animation forKey:@"kCATransitionFade"];
+        self.pageLabel.text = @"Popular";
+
+    }
+    
 }
 
 #pragma mark - Table
@@ -155,15 +228,34 @@ BOOL hasLoadedData = FALSE;
             videoURL = [NSURL URLWithString:youtubeURL];
             NSLog(@"%@",videoURL);
         } else {
-            NSLog(@"Couldn't find video URL");
-        }
+            NSDictionary *videos = [HCYoutubeParser h264videosWithYoutubeURL:[NSURL URLWithString:@"https://www.youtube.com/watch?v=K-sEKOJ59hU&feature=youtu.be"]];
+            NSString *youtubeURL = [[NSString alloc] init];
+            NSDictionary *qualities = videos;
+            
+            if ([qualities objectForKey:@"large"] != nil) {
+                youtubeURL = [qualities objectForKey:@"large"];
+                videoURL = [NSURL URLWithString:youtubeURL];
+                NSLog(@"%@",videoURL);
+            } else if ([qualities objectForKey:@"hd720"] != nil) {
+                youtubeURL = [qualities objectForKey:@"hd720"];
+                videoURL = [NSURL URLWithString:youtubeURL];
+                NSLog(@"%@",videoURL);
+            } else if ([qualities objectForKey:@"medium"] != nil) {
+                youtubeURL = [qualities objectForKey:@"medium"];
+                videoURL = [NSURL URLWithString:youtubeURL];
+                NSLog(@"%@",videoURL);
+            }  else if ([qualities objectForKey:@"small"] != nil) {
+                youtubeURL = [qualities objectForKey:@"small"];
+                videoURL = [NSURL URLWithString:youtubeURL];
+                NSLog(@"%@",videoURL);
 
     } else if (hack.isYouTube == false) {
         videoURL = [NSURL URLWithString:hack.video];
         NSLog(@"%@",hack.video);
         
+        
     }
-    
+        }}
     [self.mPlayer thumbnailImageAtTime:1 timeOption:MPMovieTimeOptionNearestKeyFrame];
     self.mPlayer = [[MPMoviePlayerController alloc] init];
     self.mPlayer.movieSourceType = MPMovieSourceTypeStreaming;
@@ -178,6 +270,8 @@ BOOL hasLoadedData = FALSE;
                                              selector:@selector(loop:)
                                                  name:MPMoviePlayerPlaybackDidFinishNotification
                                                object:self.mPlayer];
+    cell.hackHellYeahButton.layer.cornerRadius = 4;
+
     
     if (hack.isLiked) {
         cell.hackHellYeahButton.tag = 1;
@@ -235,17 +329,33 @@ BOOL hasLoadedData = FALSE;
 #pragma mark - View
 
 - (void)viewDidAppear:(BOOL)animated {
-    
+    CATransition *animation = [CATransition animation];
+    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    animation.type = kCATransitionFade;
+    animation.duration = 0.25;
+    [self.pageLabel.layer addAnimation:animation forKey:@"kCATransitionFade"];
+    self.pageLabel.alpha = 1.0;
+    self.pageControl.alpha = 1.0;
+
     if (!hasLoadedData) {
         hasLoadedData = TRUE;
     self.hacks = [NSMutableArray array];
 
 [self refreshHacks];
     }
+    [self.navigationController.navigationBar addGestureRecognizer:self.recognizerPrevious];
+    [self.navigationController.navigationBar addGestureRecognizer:self.recognizer];
+    [self.navigationController.navigationBar addSubview:self.pageLabel];
+    [self.navigationController.navigationBar addSubview:self.pageControl];
+
 }
 
 - (void)viewDidLoad {
+    type = Following;
     [super viewDidLoad];
+    [self.recognizer setEnabled:true];
+    [self.recognizerPrevious setEnabled:true];
+    NSLog(@"viewdidload");
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     self.navigationController.navigationBar.translucent = YES;
     self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor whiteColor]};
@@ -264,12 +374,14 @@ BOOL hasLoadedData = FALSE;
     id block = ^(NSString *username, NSString *name, NSURL *gravatar) {
         UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake( 0, 0, 25, 25)];
         if (gravatar == NULL || gravatar == nil ) {
-        [button setImage:[UIImage imageNamed:@"profile"] forState:UIControlStateNormal];
+            [button setImage:[UIImage imageNamed:@"profile"] forState:UIControlStateNormal];
             button.frame = CGRectMake(0, 0, 50, 50);
-        [button setHidden:YES];
+            [button setHidden:YES];
         } else
             [button.layer setBorderColor:[[UIColor whiteColor] CGColor]];
-
+        
+        button.frame = CGRectMake(0, 0, 28.5, 28.5);
+        
         UIImageView *profileImage = [[UIImageView alloc] init];
         [profileImage setImageWithURL:gravatar];
         [button setImage:profileImage.image forState:UIControlStateNormal];
@@ -281,20 +393,19 @@ BOOL hasLoadedData = FALSE;
         [[button layer] setBorderColor:[UIColor whiteColor].CGColor];
         UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:button];
         
-        self.navigationItem.leftBarButtonItem = item;
-    };
+        self.navigationItem.leftBarButtonItem = item;    };
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 200, 60.0)];
     [self.navigationController.navigationBar.topItem setTitleView
      :view];
     view = self.navigationController.navigationBar.topItem.titleView;
     view.autoresizingMask = UIViewAutoresizingFlexibleHeight;
 
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Light Logo"]];
-    imageView.contentMode = UIViewContentModeScaleAspectFit;
-    [view addSubview:imageView];
-    
-    imageView.frame = CGRectMake(imageView.frame.origin.x, imageView.frame.origin.y - 10, 175, 25);
-    imageView.center = view.center;
+    self.pageLabel = [[UILabel alloc] init];
+    [self.navigationController.navigationBar addSubview:self.pageLabel];
+    self.pageLabel.text = @"Following";
+    self.pageLabel.frame = CGRectMake(110, -18, 100, 64);
+    self.pageLabel.textAlignment = NSTextAlignmentCenter;
+    self.pageLabel.textColor = [UIColor whiteColor];
     UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, -10, view.frame.size.width, view.frame.size.height)];
     [button setTitle:@"▾" forState:UIControlStateNormal];
     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -303,7 +414,37 @@ BOOL hasLoadedData = FALSE;
     [button addTarget:self action:@selector(dragShowNotifications:withEvent:) forControlEvents:UIControlEventTouchDragOutside];
     [button addTarget:self action:@selector(hideNotificationsIfShown) forControlEvents:UIControlEventTouchUpInside];
     [button addTarget:self action:@selector(showNotifications) forControlEvents:UIControlEventTouchUpOutside];
+    CGSize navBarSize = self.navigationController.navigationBar.bounds.size;
+    CGPoint origin = CGPointMake( navBarSize.width/2, navBarSize.height/2 );
     
+    self.pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(origin.x, origin.y +9,
+                                                                       0, 0)];
+    
+    self.recognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(changePagesNext:)];
+    [self.recognizer setDirection:(UISwipeGestureRecognizerDirectionLeft)];
+    [self.navigationController.navigationBar addGestureRecognizer:self.recognizer];
+    
+    self.recognizerPrevious = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(changePagesPrevious:)];
+    [self.recognizerPrevious setDirection:(UISwipeGestureRecognizerDirectionRight)];
+    [self.navigationController.navigationBar addGestureRecognizer:self.recognizerPrevious];
+
+
+    [super viewDidLoad];
+    
+    /*CATransition *animation = [CATransition animation];
+     animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+     animation.type = kCATransitionPush;
+     [animation setSubtype:kCATransitionFromRight];
+     animation.duration = 0.45;
+     [whoiam.layer addAnimation:animation forKey:@"kCATransitionFade"];
+     whoiam.text = @"Where I'm From";
+     swipeGestureback1.enabled = NO;
+*/
+    
+    //Or whatever number of viewcontrollers you have
+    [self.pageControl setNumberOfPages:3];
+    
+    [self.navigationController.navigationBar addSubview:self.pageControl];
     // A little trick for removing the cell separators
     self.tableView.tableFooterView = [UIView new];
     //[view addSubview:button];
@@ -330,6 +471,7 @@ BOOL hasLoadedData = FALSE;
 }
 
 - (void)showProfile {
+
     NSLog(@"shown");
     [self performSegueWithIdentifier:@"viewMyProfile" sender:self];
     [self.mPlayer pause];
@@ -359,6 +501,13 @@ BOOL hasLoadedData = FALSE;
     
     if (button.tag == 0) {
         [HBHack likeHack:hack completion:^(BOOL success) {
+            NSNumber *number = [NSNumber numberWithInt:[hack.likes intValue]];
+            int value = [number intValue];
+            number = [NSNumber numberWithInt:value + 1];
+            NSLog(@"%@",number);
+            cell.hackHellYeahButton.titleLabel.text = [NSString stringWithFormat:@"%@",number];
+            [cell.hackHellYeahButton removeFromSuperview];
+            [cell addSubview:cell.hackHellYeahButton];
             NSLog(@"You liked '%@'",hack.title);
             [button setBackgroundColor:[UIColor colorWithRed:144.0/255.0 green:204.0/255.0 blue:92.0/255.0 alpha:1]];
             [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -372,6 +521,41 @@ BOOL hasLoadedData = FALSE;
             button.tag = 1;
         }];
     }}
+
+-(void)viewWillDisappear:(BOOL)animated {
+    CATransition *animation = [CATransition animation];
+    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    animation.type = kCATransitionFade;
+    animation.subtype = kCATransitionFromRight;
+    animation.duration = 0.25;
+    [self.pageLabel.layer addAnimation:animation forKey:@"kCATransitionFade"];
+    [self.pageControl.layer addAnimation:animation forKey:@"kCATransitionFade"];
+    self.pageLabel.alpha = 0.0;
+    self.pageControl.alpha = 0.0;
+    
+
+
+}
+
+-(void)viewDidDisappear:(BOOL)animated {
+    [self.recognizer setEnabled:false];
+    [self.recognizerPrevious setEnabled:false];
+
+    
+    
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    CATransition *animation = [CATransition animation];
+    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    animation.subtype = kCATransitionFromLeft;
+    animation.type = kCATransitionFade;
+    animation.duration = 0.25;
+    [self.pageLabel.layer addAnimation:animation forKey:@"kCATransitionFade"];
+    [self.pageControl.layer addAnimation:animation forKey:@"kCATransitionFade"];
+    self.pageLabel.alpha = 1.0;
+    self.pageControl.alpha = 1.0;
+}
 
 
 @end

@@ -27,15 +27,30 @@
 {
     [super viewDidLoad];
     self.loginButton.layer.cornerRadius = 5;
+
 }
 -(void)viewWillAppear:(BOOL)animated {
     KeychainItemWrapper *keychainItem = [[KeychainItemWrapper alloc] initWithIdentifier:@"Login" accessGroup:nil];
     self.passwordTextField.text = [keychainItem objectForKey:(__bridge id)(kSecValueData)];
     self.emailTextField.text = [keychainItem objectForKey:(__bridge id)(kSecAttrAccount)];
+    self.passwordTextField.delegate = self;
+    self.emailTextField.delegate = self;
+
 }
 -(void)viewDidAppear:(BOOL)animated {
     [self.emailTextField becomeFirstResponder];
 }
+
+- (BOOL)textFieldShouldReturn:(UITextField *)passwordTextField {
+    if ([self.passwordTextField.text isEqualToString:@""] || ([self.emailTextField.text isEqualToString:@""])) {
+        
+    } else {
+        [self login];
+    }
+    
+    return YES;
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -61,6 +76,28 @@
              (UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert)];
         }*/
     }];
+}
+
+-(void)login {
+    [HBUser login:self.emailTextField.text password:self.passwordTextField.text block:^(HBUser *user) {
+        KeychainItemWrapper *keychainItem = [[KeychainItemWrapper alloc] initWithIdentifier:@"Login" accessGroup:nil];
+        [keychainItem setObject:self.passwordTextField.text forKey:(__bridge id)(kSecValueData)];
+        [keychainItem setObject:self.emailTextField.text forKey:(__bridge id)(kSecAttrAccount)];
+        
+        [self performSegueWithIdentifier:@"getStarted" sender:self];
+        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+        /*if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
+         {
+         [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge) categories:nil]];
+         [[UIApplication sharedApplication] registerForRemoteNotifications];
+         }
+         else
+         {
+         [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
+         (UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert)];
+         }*/
+    }];
+
 }
 
 - (IBAction)createAccount:(id)sender {

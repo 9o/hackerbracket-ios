@@ -11,7 +11,7 @@
 
 @import Security;
 
-@interface HBLoginViewController : UIViewController
+@interface HBLoginViewController : UIViewController <UITextFieldDelegate>
 
 @property (strong, nonatomic) IBOutlet UITextField *emailTextField;
 @property (strong, nonatomic) IBOutlet UITextField *passwordTextField;
